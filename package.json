@@ -1,0 +1,43 @@
+{
+	"name": "@aftership/koa-swagger-ajv",
+	"description": "middleware for validation and documentation",
+	"version": "0.0.1",
+	"homepage": "https://github.com/AfterShip/koa-swagger-ajv",
+	"author": {
+	  "name": "tushar",
+	  "email": "tushar@aftership.com"
+	},
+	"repository": {
+	  "type": "git",
+	  "url": "git://github.com/AfterShip/koa-swagger-ajv.git"
+	},
+	"bugs": {
+	  "url": "https://github.com/AfterShip/koa-swagger-ajv/issues"
+	},
+	"main": "server/server.js",
+	"engines": {
+	  "node": ">= 8"
+	},
+	"scripts": {
+	  "lint": "eslint --ext .js .",
+	  "jest": "NODE_ENV=test jest --coverageReporters=json lcov text-summary",
+	  "jest:dev": "NODE_ENV=test jest --coverageReporters=text-summary --watch --notify",
+	  "test": "npm run lint && npm run jest",
+	  "prepush": "npm test"
+	},
+	"dependencies": {
+	  "ajv": "^6.4.0",
+	  "bunyan": "^1.8.12",
+	  "config": "^1.30.0",
+	  "http-status-codes": "^1.3.0",
+	  "lodash": "^4.17.10",
+	  "pug": "^2.0.3"
+	},
+	"devDependencies": {
+	  "eslint": "^4.19.1",
+	  "eslint-config-aftership": "^4.3.0",
+	  "husky": "^0.14.3",
+	  "jest": "^22.4.3"
+	},
+	"license": "UNLICENSED"
+}
