@@ -21,46 +21,55 @@ exports.parse = errors => {
 			parent_schema_id: parentSchema.$id
 		};
 
+		const path = `data${dataPath}`;
+
 		if (parentSchema.errorMessage) {
 			return Object.assign(result, {
-				path: `data${dataPath}`,
+				path,
 				info: parentSchema.errorMessage
 			});
 		}
 
 		if (keyword === 'additionalProperties') {
 			return Object.assign(result, {
-				path: `data${dataPath}`,
-				info: `${message} ['${params.additionalProperty}']`
+				info: `${path} ${message} ['${params.additionalProperty}']`
 			});
 		}
 
 		if (keyword === 'enum') {
 			return Object.assign(result, {
-				path: `data${dataPath}`,
-				info: `should be equal to one of values ${JSON.stringify(schema)}`
+				path,
+				info: `${path} should be equal to one of values ${JSON.stringify(schema)}`
 			});
 		}
 
 		if (keyword === 'oneOf' || keyword === 'anyOf') {
 			return Object.assign(result, {
-				path: `data${dataPath}`,
-				info: `${message}`,
+				path,
+				info: `${path} ${message}`,
 				schema: map(schema, '$ref')
 			});
 		}
 
 		if (keyword === 'required') {
+			const required_path = `data${dataPath}.${params.missingProperty}`;
 			return Object.assign(result, {
-				path: `data${dataPath}.${params.missingProperty}`,
-				info: 'missing required property'
+				path: required_path,
+				info: `${required_path} is a required property`
 			});
 		}
 
-		if (keyword === 'required') {
+		if (keyword === 'format') {
 			return Object.assign(result, {
-				path: `data${dataPath}`,
-				info: `should match format ${params.format}`
+				path,
+				info: `${path} should match format ${params.format}`
+			});
+		}
+
+		if (keyword === 'eitherOneOfPropertiesRequired') {
+			return Object.assign(result, {
+				path,
+				info: `${message}`
 			});
 		}
 
@@ -69,8 +78,8 @@ exports.parse = errors => {
 		}
 
 		return Object.assign(result, {
-			path: `data${dataPath}`,
-			info: `${message}`
+			path,
+			info: `${path} ${message}`
 		});
 	});
 
