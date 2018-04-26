@@ -23,7 +23,9 @@
 		"jest": "NODE_ENV=test jest --coverageReporters=json lcov text-summary",
 		"jest:dev": "NODE_ENV=test jest --coverageReporters=text-summary --watch --notify",
 		"test": "npm run lint && npm run jest",
-		"prepush": "npm test"
+		"build": "BABEL_ENV=es5 babel src -d dist --ignore=**/__tests__/** --copy-files",
+    "prepush": "npm test",
+    "prepublishOnly": "yarn install && npm build"
 	},
 	"dependencies": {
 		"ajv": "^6.4.0",
@@ -32,6 +34,9 @@
 		"pug": "^2.0.3"
 	},
 	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-core": "^6.26.0",
+		"babel-preset-env": "^1.6.1",
 		"eslint": "^4.19.1",
 		"eslint-config-aftership": "^4.3.0",
 		"husky": "^0.14.3",

@@ -1,0 +1,21 @@
+{
+	"presets": [
+		["env", {
+			"targets": {
+				"node": 4
+			},
+			"modules": false
+		}]
+	],
+	"env": {
+		"es5": {
+			"presets": [
+				["env", {
+					"targets": {
+						"node": 4
+					}
+				}]
+			]
+		}
+	}
+}

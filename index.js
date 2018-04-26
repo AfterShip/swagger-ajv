@@ -2,15 +2,15 @@
 
 exports.middlewares = {
 	express: {
-		docs: require('./src/middlewares/express/docs'),
-		validation: require('./src/middlewares/express/validation')
+		docs: require('./dist/middlewares/express/docs'),
+		validation: require('./dist/middlewares/express/validation')
 	},
 	koa: {
-		docs: require('./src/middlewares/koa/docs'),
-		validation: require('./src/middlewares/koa/validation')
+		docs: require('./dist/middlewares/koa/docs'),
+		validation: require('./dist/middlewares/koa/validation')
 	}
 };
 
 exports.utils = {
-	mergeSchemas: require('./src/utils/merge_schemas')
+	mergeSchemas: require('./dist/utils/merge_schemas')
 };
