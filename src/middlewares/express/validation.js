@@ -9,7 +9,7 @@ const errorParser = require('../../utils/error_parser');
  * middleware that uses ajv to validate request parameters against schema determined by request route and request method
  * $ref will resolve only `#/components/schemas/...` same as openapi schema
  *
- * @todo - add support for request other than `GET query` and `POST PUT application/json`
+ * @todo - add support for request other than `GET query` and `POST PUT PATCH DELETE application/json`
  */
 module.exports = ({components, paths}) => {
 	const ajv = new Ajv({
@@ -25,7 +25,14 @@ module.exports = ({components, paths}) => {
 	return (req, res, next) => {
 		const {method, path} = req;
 
-		const data = paths[path][method.toLowerCase()];
+		const [route, params] = path.split(':');
+
+		let data;
+		if (params) {
+			data = paths[`${route}{${params}}`][method.toLowerCase()];
+		} else {
+			data = paths[path][method.toLowerCase()];
+		}
 
 		let is_valid = false;
 		switch (method) {
