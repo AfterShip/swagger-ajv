@@ -2,8 +2,8 @@
 
 const Ajv = require('ajv');
 
-const {validateGet, validate} = require('../utils/validate_methods');
-const errorParser = require('../utils/error_parser');
+const {validateGet, validate} = require('../../utils/validate_methods');
+const errorParser = require('../../utils/error_parser');
 
 /**
  * middleware that uses ajv to validate request parameters against schema determined by request route and request method
@@ -22,10 +22,10 @@ module.exports = ({components, paths}) => {
 		components
 	});
 
-	return (req, res, next) => {
-		const {method, path} = req;
+	return (ctx, next) => {
+		const {method, _matchedRoute} = ctx;
 
-		const data = paths[path][method.toLowerCase()];
+		const data = paths[_matchedRoute][method.toLowerCase()];
 
 		let is_valid = false;
 		switch (method) {
@@ -33,23 +33,23 @@ module.exports = ({components, paths}) => {
 			case 'PUT':
 			case 'PATCH':
 			case 'DELETE':
-				is_valid = validate(ajv, data, req.body);
+				is_valid = validate(ajv, data, ctx.request.body);
 				break;
 			case 'GET':
 				// assumes query and params have no conflicting names
-				is_valid = validateGet(ajv, data, Object.assign({}, req.query, req.params));
+				is_valid = validateGet(ajv, data, Object.assign({}, ctx.request.query, ctx.params));
 				break;
 			default:
-				throw new Error('Method not allowed');
+				ctx.throw(400, 'Method not allowed');
+				break;
 		}
 
 		if (!is_valid) {
-			const error = new Error('Schema validation error');
-			error.details = errorParser.parse(ajv.errors);
-			throw error;
+			ctx.throw(400, 'Schema validation error', {
+				details: errorParser.parse(ajv.errors)
+			});
 		}
 
 		return next();
 	};
 };
-

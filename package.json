@@ -1,18 +1,18 @@
 {
-	"name": "@aftership/koa-swagger-ajv",
+	"name": "@aftership/swagger-ajv",
 	"description": "middleware for validation and documentation",
 	"version": "0.0.1",
-	"homepage": "https://github.com/AfterShip/koa-swagger-ajv",
+	"homepage": "https://github.com/AfterShip/swagger-ajv",
 	"author": {
 		"name": "tushar",
 		"email": "tushar@aftership.com"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/AfterShip/koa-swagger-ajv.git"
+		"url": "git://github.com/AfterShip/swagger-ajv.git"
 	},
 	"bugs": {
-		"url": "https://github.com/AfterShip/koa-swagger-ajv/issues"
+		"url": "https://github.com/AfterShip/swagger-ajv/issues"
 	},
 	"main": "server/server.js",
 	"engines": {
@@ -28,7 +28,8 @@
 	"dependencies": {
 		"ajv": "^6.4.0",
 		"config": "^1.30.0",
-		"lodash": "^4.17.10"
+		"lodash": "^4.17.10",
+		"pug": "^2.0.3"
 	},
 	"devDependencies": {
 		"eslint": "^4.19.1",
