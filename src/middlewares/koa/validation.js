@@ -1,59 +1,30 @@
 'use strict';
 
-const Ajv = require('ajv');
+const validation = require('../../utils/validation');
 
-const {validateGet, validate} = require('../../utils/validate_methods');
-const errorParser = require('../../utils/error_parser');
-
-/**
- * middleware that uses ajv to validate request parameters against schema determined by request route and request method
- * $ref will resolve only `#/components/schemas/...` same as openapi schema
- *
- * @todo - add support for request other than `GET query` and `POST PUT PATCH DELETE application/json`
- */
 module.exports = ({components, paths}) => {
-	const ajv = new Ajv({
-		allErrors: true,
-		removeAdditional: true
-	});
-
-	ajv.addSchema({
-		$id: '_',
-		components
-	});
+	const validate = validation({components, paths});
 
 	return (ctx, next) => {
-		const {method, _matchedRoute} = ctx;
+		const {
+			_matchedRoute: route,
+			body,
+			method,
+			params,
+			query
+		} = ctx;
 
-		const [route, params] = _matchedRoute.split(':');
-
-		let data;
-		if (params) {
-			data = paths[`${route}{${params}}`][method.toLowerCase()];
-		} else {
-			data = paths[_matchedRoute][method.toLowerCase()];
-		}
-
-		let is_valid = false;
-		switch (method) {
-			case 'POST':
-			case 'PUT':
-			case 'PATCH':
-			case 'DELETE':
-				is_valid = validate(ajv, data, ctx.request.body);
-				break;
-			case 'GET':
-				// assumes query and params have no conflicting names
-				is_valid = validateGet(ajv, data, Object.assign({}, ctx.request.query, ctx.params));
-				break;
-			default:
-				ctx.throw(400, 'Method not allowed');
-				break;
-		}
-
-		if (!is_valid) {
-			ctx.throw(400, 'Schema validation error', {
-				details: errorParser.parse(ajv.errors)
+		try {
+			validate({
+				body,
+				method,
+				params,
+				query,
+				route
+			});
+		} catch (error) {
+			ctx.throw(400, error.message, {
+				details: error.details
 			});
 		}
 
