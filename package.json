@@ -1,7 +1,7 @@
 {
 	"name": "@aftership/swagger-ajv",
 	"description": "middleware for validation and documentation",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"homepage": "https://github.com/AfterShip/swagger-ajv",
 	"author": {
 		"name": "tushar",
@@ -16,7 +16,7 @@
 	},
 	"main": "server/server.js",
 	"engines": {
-		"node": ">= 8"
+		"node": ">= 4"
 	},
 	"scripts": {
 		"lint": "eslint --ext .js .",
@@ -24,12 +24,11 @@
 		"jest:dev": "NODE_ENV=test jest --coverageReporters=text-summary --watch --notify",
 		"test": "npm run lint && npm run jest",
 		"build": "BABEL_ENV=es5 babel src -d dist --ignore=**/__tests__/** --copy-files",
-    "prepush": "npm test",
-    "prepublishOnly": "yarn install && npm build"
+		"prepush": "npm test",
+		"prepublishOnly": "yarn install && npm build"
 	},
 	"dependencies": {
 		"ajv": "^6.4.0",
-		"config": "^1.30.0",
 		"lodash": "^4.17.10",
 		"pug": "^2.0.3"
 	},
