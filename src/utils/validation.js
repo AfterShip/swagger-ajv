@@ -2,8 +2,8 @@
 
 const Ajv = require('ajv');
 
-const errorParser = require('../../utils/error_parser');
-const {validateGet, validate} = require('../../utils/validate_methods');
+const errorParser = require('./error_parser');
+const {validateGet, validate} = require('./validate_methods');
 
 /**
  uses ajv to validate request parameters against schema determined by request route and request method

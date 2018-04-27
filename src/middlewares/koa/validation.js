@@ -8,11 +8,14 @@ module.exports = ({components, paths}) => {
 	return (ctx, next) => {
 		const {
 			_matchedRoute: route,
-			body,
 			method,
-			params,
-			query
+			params
 		} = ctx;
+
+		const {
+			body,
+			query
+		} = ctx.request;
 
 		try {
 			validate({
