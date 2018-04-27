@@ -1,18 +1,14 @@
 
 'use strict';
 
-const path = require('path');
-const pug = require('pug');
+const docs = require('../../utils/docs');
 
-module.exports = (schemas) => {
-	const docs = pug.renderFile(path.resolve(__dirname, '../../views/docs.pug'), {
-		spec: schemas
-	});
+module.exports = schemas => {
+	const body = docs(schemas);
 
 	return function (req, res, next) {
 		if (req.path === '/docs') {
-			res.render(docs);
-			return undefined;
+			return res.render(body);
 		}
 
 		return next();
