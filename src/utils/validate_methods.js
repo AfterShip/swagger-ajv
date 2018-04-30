@@ -84,6 +84,7 @@ const getDeep = (data, path) => {
 };
 
 exports.validate = (validator, data, to_validate) => {
+	if (!data.requestBody) return true;
 	const schema = getDeep(data, 'schema');
 	const schema_prefix_ref = prefixStringValue(schema, '$ref', '_');
 

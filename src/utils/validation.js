@@ -44,7 +44,11 @@ module.exports = ({components, paths}) => {
 
 		if (!is_valid) {
 			const error = new Error('Schema validation error');
-			error.details = errorParser.parse(ajv.errors);
+
+			if (ajv.errors) {
+				error.details = errorParser.parse(ajv.errors);
+			}
+
 			throw error;
 		}
 	};

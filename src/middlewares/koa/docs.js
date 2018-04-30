@@ -9,9 +9,9 @@ module.exports = schemas => {
 		if (ctx.path === '/docs') {
 			ctx.type = 'text/html';
 			ctx.body = body;
-			return;
+			return undefined;
 		}
 
-		next();
+		return next();
 	};
 };
