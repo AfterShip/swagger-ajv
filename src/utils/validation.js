@@ -23,14 +23,8 @@ module.exports = ({components, paths}) => {
 	});
 
 	return ({body, method, params, query, route}) => {
-		const [split_route, split_params] = route.split(':');
-
-		let data;
-		if (split_params) {
-			data = paths[`${split_route}{${split_params}}`][method.toLowerCase()];
-		} else {
-			data = paths[route][method.toLowerCase()];
-		}
+		const path = route.replace(/:[^/]*/, match => `{${match.slice(1)}}`);
+		const data = paths[path][method.toLowerCase()];
 
 		let is_valid = false;
 		switch (method) {
