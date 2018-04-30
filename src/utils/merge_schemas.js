@@ -23,7 +23,6 @@ function readDirRecursively(dir) {
 }
 
 module.exports = (schemas_dir) => readDirRecursively(schemas_dir)
-	.filter(absolutePath => absolutePath.endsWith('.json'))
 	.reduce(
 		(acc, file) => _.merge(
 			acc,
