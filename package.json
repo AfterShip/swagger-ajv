@@ -1,7 +1,7 @@
 {
 	"name": "@aftership/swagger-ajv",
 	"description": "middleware for validation and documentation",
-	"version": "0.0.12",
+	"version": "0.1.0",
 	"homepage": "https://github.com/AfterShip/swagger-ajv",
 	"author": {
 		"name": "tushar",
@@ -16,7 +16,7 @@
 	},
 	"main": "dist/index.js",
 	"engines": {
-		"node": ">= 4"
+		"node": ">= 6"
 	},
 	"scripts": {
 		"lint": "eslint --ext .js .",
@@ -28,7 +28,7 @@
 		"prepublishOnly": "yarn install && yarn build"
 	},
 	"dependencies": {
-		"ajv": "^6.4.0",
+		"ajv": "~6.3.0",
 		"lodash": "^4.17.10",
 		"pug": "^2.0.3"
 	},
