@@ -8,7 +8,7 @@ module.exports = schemas => {
 
 	return function (req, res, next) {
 		if (req.path === '/docs') {
-			return res.render(body);
+			return res.send(body);
 		}
 
 		return next();
