@@ -27,32 +27,34 @@ module.exports = ({components, paths, ajvOptions}) => {
 		const path = route.replace(/:[^/]*/, match => `{${match.slice(1)}}`);
 		const data = paths[path][method.toLowerCase()];
 
-		let isValid = false;
-		let isValidBadPractice = false;
+		const isValids = [];
 		switch (method) {
 			case 'POST':
 			case 'PUT':
 			case 'PATCH':
 			case 'DELETE':
-				isValid = validate(ajv, data, body);
-				isValidBadPractice = validateGet(ajv, data, {
-					query,
-					path: params
-				});
+				isValids.push(
+					validate(ajv, data, body),
+					validateGet(ajv, data, {
+						query,
+						path: params
+					})
+				);
 				break;
 			case 'GET':
-				isValid = validateGet(ajv, data, {
-					query,
-					path: params
-				});
-
-				isValidBadPractice = true;
+				isValids.push(
+					validateGet(ajv, data, {
+						query,
+						path: params
+					}),
+					true
+				);
 				break;
 			default:
 				throw new Error('Method not allowed');
 		}
 
-		if (!isValid || !isValidBadPractice) {
+		if (!isValids.every(isValid => isValid)) {
 			const error = new Error('Schema validation error');
 
 			if (ajv.errors) {
