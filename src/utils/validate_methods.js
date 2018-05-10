@@ -96,20 +96,30 @@ exports.validate = (validator, data, to_validate) => {
 
 exports.validateGet = (validator, data, to_validate) => {
 	if (!data.parameters) return true;
-	const parameters_required = data.parameters.filter(({required}) => required === true).map(({name}) => name);
 
-	const parameters_properties = Object.values(data.parameters).reduce(
-		(acc, {name, schema}) => Object.assign(acc, {
-			[name]: prefixStringValue(schema, '$ref', '_')
-		}),
-		{}
-	);
+	const results = Object.keys(to_validate).map(
+		key => {
+			const parameters = data.parameters.filter(parameter => parameter.in === key);
 
-	const schema_prefix_ref = {
-		type: 'object',
-		required: parameters_required,
-		properties: parameters_properties
-	};
+			if (!parameters.length) return true;
 
-	return validator.validate(schema_prefix_ref, to_validate);
+			const parameters_required = parameters.filter(({required}) => required).map(({name}) => name);
+
+			const parameters_properties = Object.values(parameters).reduce(
+				(acc, {name, schema}) => Object.assign(acc, {
+					[name]: prefixStringValue(schema, '$ref', '_')
+				}),
+				{}
+			);
+
+			const schema_prefix_ref = {
+				type: 'object',
+				required: parameters_required,
+				properties: parameters_properties
+			};
+
+			return validator.validate(schema_prefix_ref, to_validate[key]);
+		});
+
+	return results.every(result => result);
 };

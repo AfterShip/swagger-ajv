@@ -40,12 +40,25 @@ describe('validateGet', () => {
 		a: 'a'
 	}, queries);
 
+	it('should validate request with empty query and parameters', () => {
+		const validator = validatorFactory({});
+		const data = dataFactory({}, []);
+
+		const is_valid = validateGet(validator, data, {
+			query: {},
+			params: {}
+		});
+		expect(is_valid).toEqual(true);
+	});
+
 	it('should validate request', () => {
 		const validator = validatorFactory({});
 		const data = dataFactory({}, []);
 		const query = queryFactory({});
 
-		const is_valid = validateGet(validator, data, query);
+		const is_valid = validateGet(validator, data, {
+			query
+		});
 		expect(is_valid).toEqual(true);
 	});
 
@@ -63,7 +76,9 @@ describe('validateGet', () => {
 		]);
 		const query = queryFactory({});
 
-		const is_valid = validateGet(validator, data, query);
+		const is_valid = validateGet(validator, data, {
+			query
+		});
 		expect(is_valid).toEqual(false);
 	});
 
@@ -74,7 +89,9 @@ describe('validateGet', () => {
 			a: 0
 		});
 
-		const is_valid = validateGet(validator, data, query);
+		const is_valid = validateGet(validator, data, {
+			query
+		});
 		expect(is_valid).toEqual(false);
 	});
 });
