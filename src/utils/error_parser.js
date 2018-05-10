@@ -18,7 +18,7 @@ exports.parse = errors => {
 		} = error;
 
 		const result = {
-			parent_schema_id: parentSchema.$id
+			parentSchemaId: parentSchema.$id
 		};
 
 		const path = `data${dataPath}`;
@@ -56,10 +56,10 @@ exports.parse = errors => {
 		}
 
 		if (keyword === 'required') {
-			const required_path = `data${dataPath}.${params.missingProperty}`;
+			const requiredPath = `data${dataPath}.${params.missingProperty}`;
 			return {
-				path: required_path,
-				info: `${required_path} is a required property`,
+				path: requiredPath,
+				info: `${requiredPath} is a required property`,
 				...result
 			};
 		}

@@ -32,8 +32,8 @@ describe('validateGet', () => {
 	});
 
 	const validatorFactory = validator => ({
-		validate: jest.fn((schema, to_validate) => {
-			return ajv.validate(schema, to_validate);
+		validate: jest.fn((schema, toValidate) => {
+			return ajv.validate(schema, toValidate);
 		}),
 		...validator
 	});
@@ -47,11 +47,11 @@ describe('validateGet', () => {
 		const validator = validatorFactory({});
 		const data = dataFactory({}, []);
 
-		const is_valid = validateGet(validator, data, {
+		const isValid = validateGet(validator, data, {
 			query: {},
 			params: {}
 		});
-		expect(is_valid).toEqual(true);
+		expect(isValid).toEqual(true);
 	});
 
 	it('should validate request', () => {
@@ -59,10 +59,10 @@ describe('validateGet', () => {
 		const data = dataFactory({}, []);
 		const query = queryFactory({});
 
-		const is_valid = validateGet(validator, data, {
+		const isValid = validateGet(validator, data, {
 			query
 		});
-		expect(is_valid).toEqual(true);
+		expect(isValid).toEqual(true);
 	});
 
 	it('should not validate request with missing required parameters', () => {
@@ -79,10 +79,10 @@ describe('validateGet', () => {
 		]);
 		const query = queryFactory({});
 
-		const is_valid = validateGet(validator, data, {
+		const isValid = validateGet(validator, data, {
 			query
 		});
-		expect(is_valid).toEqual(false);
+		expect(isValid).toEqual(false);
 	});
 
 	it('should not validate request with invalid type', () => {
@@ -92,10 +92,10 @@ describe('validateGet', () => {
 			a: 0
 		});
 
-		const is_valid = validateGet(validator, data, {
+		const isValid = validateGet(validator, data, {
 			query
 		});
-		expect(is_valid).toEqual(false);
+		expect(isValid).toEqual(false);
 	});
 });
 
@@ -121,8 +121,8 @@ describe('validate', () => {
 	});
 
 	const validatorFactory = validator => ({
-		validate: jest.fn((schema, to_validate) => {
-			return ajv.validate(schema, to_validate);
+		validate: jest.fn((schema, toValidate) => {
+			return ajv.validate(schema, toValidate);
 		}),
 		...validator
 	});
@@ -137,8 +137,8 @@ describe('validate', () => {
 		const data = dataFactory({}, {}, []);
 		const body = bodyFactory({});
 
-		const is_valid = validate(validator, data, body);
-		expect(is_valid).toEqual(true);
+		const isValid = validate(validator, data, body);
+		expect(isValid).toEqual(true);
 	});
 
 	it('should not validate request with missing required property', () => {
@@ -150,8 +150,8 @@ describe('validate', () => {
 		}, {}, ['b']);
 		const body = bodyFactory({});
 
-		const is_valid = validate(validator, data, body);
-		expect(is_valid).toEqual(false);
+		const isValid = validate(validator, data, body);
+		expect(isValid).toEqual(false);
 	});
 
 	it('should not validate request with invalid type', () => {
@@ -161,7 +161,7 @@ describe('validate', () => {
 			a: 0
 		});
 
-		const is_valid = validate(validator, data, body);
-		expect(is_valid).toEqual(false);
+		const isValid = validate(validator, data, body);
+		expect(isValid).toEqual(false);
 	});
 });

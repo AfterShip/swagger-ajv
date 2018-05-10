@@ -3,5 +3,10 @@
   "parser": "babel-eslint",
   "env": {
     "jest": true
+  },
+  "rules": {
+    "camelcase": ["error", {
+      "properties": "always"
+    }]
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
+const {get} = require('lodash');
 
 /**
  * check if the given object is JSON object type assuming that the given data is valid JSON
@@ -71,7 +71,7 @@ const getDeep = (data, path) => {
 	if (typeof data !== 'object') return undefined;
 
 	if (!Array.isArray(data)) {
-		const result = _.get(data, path);
+		const result = get(data, path);
 		if (result) return result;
 	}
 
@@ -83,29 +83,29 @@ const getDeep = (data, path) => {
 	return undefined;
 };
 
-exports.validate = (validator, data, to_validate) => {
+exports.validate = (validator, data, toValidate) => {
 	if (!data.requestBody) return true;
 	const schema = getDeep(data, 'schema');
-	const schema_prefix_ref = prefixStringValue(schema, '$ref', '_');
+	const schemaPrefixRef = prefixStringValue(schema, '$ref', '_');
 
 	// schema must be present to validate the request body
-	if (!isJsonObject(schema_prefix_ref)) return false;
+	if (!isJsonObject(schemaPrefixRef)) return false;
 
-	return validator.validate(schema_prefix_ref, to_validate);
+	return validator.validate(schemaPrefixRef, toValidate);
 };
 
-exports.validateGet = (validator, data, to_validate) => {
+exports.validateGet = (validator, data, toValidate) => {
 	if (!data.parameters) return true;
 
-	const results = Object.keys(to_validate).map(
+	const results = Object.keys(toValidate).map(
 		key => {
 			const parameters = data.parameters.filter(parameter => parameter.in === key);
 
 			if (!parameters.length) return true;
 
-			const parameters_required = parameters.filter(({required}) => required).map(({name}) => name);
+			const parametersRequired = parameters.filter(({required}) => required).map(({name}) => name);
 
-			const parameters_properties = Object.values(parameters).reduce(
+			const parametersProperties = Object.values(parameters).reduce(
 				(acc, {name, schema}) => ({
 					[name]: prefixStringValue(schema, '$ref', '_'),
 					...acc
@@ -113,13 +113,13 @@ exports.validateGet = (validator, data, to_validate) => {
 				{}
 			);
 
-			const schema_prefix_ref = {
+			const schemaPrefixRef = {
 				type: 'object',
-				required: parameters_required,
-				properties: parameters_properties
+				required: parametersRequired,
+				properties: parametersProperties
 			};
 
-			return validator.validate(schema_prefix_ref, to_validate[key]);
+			return validator.validate(schemaPrefixRef, toValidate[key]);
 		});
 
 	return results.every(result => result);
