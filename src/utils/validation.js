@@ -37,13 +37,13 @@ module.exports = ({components, paths, ajvOptions}) => {
 				isValid = validate(ajv, data, body);
 				isValidBadPractice = validateGet(ajv, data, {
 					query,
-					params
+					path: params
 				});
 				break;
 			case 'GET':
 				isValid = validateGet(ajv, data, {
 					query,
-					params
+					path: params
 				});
 
 				isValidBadPractice = true;
