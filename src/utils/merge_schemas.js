@@ -1,8 +1,17 @@
 'use strict';
 
-const {merge, chain} = require('lodash');
+const {merge, chain, set} = require('lodash');
 const fs = require('fs');
 const path = require('path');
+
+const trimExt = filePath => `${path.parse(filePath).dir}/${path.parse(filePath).name}`;
+
+const parseDirStructure = (absoluteRootPath, absoluteFilePath) => (
+	trimExt(absoluteFilePath)
+		.replace(`${absoluteRootPath}/`, '')
+		.split('/')
+		.join('.')
+);
 
 /**
  * read directory recursively
@@ -20,11 +29,22 @@ const readdirRecursive = dir => chain(fs.readdirSync(dir))
 	.flattenDeep()
 	.value();
 
-module.exports = schemasDir => readdirRecursive(schemasDir)
-	.reduce(
-		(acc, file) => merge(
-			acc,
-			require(file)
-		),
-		{}
-	);
+module.exports = (schemasDir, {
+	useDirStructure = false
+} = {}) => {
+	const absoluteSchemasPath = path.resolve(schemasDir);
+
+	return readdirRecursive(schemasDir)
+		.reduce(
+			(acc, file) => merge(
+				acc,
+				useDirStructure
+					? set({}, parseDirStructure(absoluteSchemasPath, file), require(file))
+					: require(file)
+			),
+			{}
+		);
+};
+
+module.exports.parseDirStructure = parseDirStructure;
+module.exports.readdirRecursive = readdirRecursive;
