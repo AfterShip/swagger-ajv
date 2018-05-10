@@ -8,7 +8,7 @@ const ajv = new Ajv({
 });
 
 describe('validateGet', () => {
-	const dataFactory = (data, ps) => Object.assign({
+	const dataFactory = (data, ps) => ({
 		parameters: [
 			{
 				in: 'query',
@@ -27,18 +27,21 @@ describe('validateGet', () => {
 				}
 			},
 			...ps
-		]
-	}, data);
+		],
+		...data
+	});
 
-	const validatorFactory = validator => Object.assign({
+	const validatorFactory = validator => ({
 		validate: jest.fn((schema, to_validate) => {
 			return ajv.validate(schema, to_validate);
-		})
-	}, validator);
+		}),
+		...validator
+	});
 
-	const queryFactory = (queries) => Object.assign({
-		a: 'a'
-	}, queries);
+	const queryFactory = (queries) => ({
+		a: 'a',
+		...queries
+	});
 
 	it('should validate request with empty query and parameters', () => {
 		const validator = validatorFactory({});
@@ -97,33 +100,37 @@ describe('validateGet', () => {
 });
 
 describe('validate', () => {
-	const dataFactory = (data, ps, required) => Object.assign({
+	const dataFactory = (data, ps, required) => ({
 		requestBody: {
 			content: {
 				'application/json': {
 					schema: {
 						type: 'object',
 						required: ['a', ...required],
-						properties: Object.assign({
+						properties: {
 							a: {
 								type: 'string'
-							}
-						}, ps)
+							},
+							...ps
+						}
 					}
 				}
 			}
-		}
-	}, data);
+		},
+		...data
+	});
 
-	const validatorFactory = validator => Object.assign({
+	const validatorFactory = validator => ({
 		validate: jest.fn((schema, to_validate) => {
 			return ajv.validate(schema, to_validate);
-		})
-	}, validator);
+		}),
+		...validator
+	});
 
-	const bodyFactory = body => Object.assign({
-		a: 'a'
-	}, body);
+	const bodyFactory = body => ({
+		a: 'a',
+		...body
+	});
 
 	it('should validate request', () => {
 		const validator = validatorFactory({});

@@ -24,63 +24,71 @@ exports.parse = errors => {
 		const path = `data${dataPath}`;
 
 		if (parentSchema.errorMessage) {
-			return Object.assign(result, {
+			return {
 				path,
-				info: parentSchema.errorMessage
-			});
+				info: parentSchema.errorMessage,
+				...result
+			};
 		}
 
 		if (keyword === 'additionalProperties') {
-			return Object.assign(result, {
-				info: `${path} ${message} ['${params.additionalProperty}']`
-			});
+			return {
+				info: `${path} ${message} ['${params.additionalProperty}']`,
+				...result
+			};
 		}
 
 		if (keyword === 'enum') {
-			return Object.assign(result, {
+			return {
 				path,
-				info: `${path} should be equal to one of values ${JSON.stringify(schema)}`
-			});
+				info: `${path} should be equal to one of values ${JSON.stringify(schema)}`,
+				...result
+			};
 		}
 
 		if (keyword === 'oneOf' || keyword === 'anyOf') {
-			return Object.assign(result, {
+			return {
 				path,
 				info: `${path} ${message}`,
-				schema: map(schema, '$ref')
-			});
+				schema: map(schema, '$ref'),
+				...result
+			};
 		}
 
 		if (keyword === 'required') {
 			const required_path = `data${dataPath}.${params.missingProperty}`;
-			return Object.assign(result, {
+			return {
 				path: required_path,
-				info: `${required_path} is a required property`
-			});
+				info: `${required_path} is a required property`,
+				...result
+			};
 		}
 
 		if (keyword === 'format') {
-			return Object.assign(result, {
+			return {
 				path,
-				info: `${path} should match format ${params.format}`
-			});
+				info: `${path} should match format ${params.format}`,
+				...result
+			};
 		}
 
 		if (keyword === 'eitherOneOfPropertiesRequired') {
-			return Object.assign(result, {
+			return {
 				path,
-				info: `${message}`
-			});
+				info: `${message}`,
+				...result
+			};
 		}
 
 		if (keyword === '$merge') {
 			return null;
 		}
 
-		return Object.assign(result, {
+		return {
 			path,
-			info: `${path} ${message}`
-		});
+			info: `${path} ${message}`,
+			...result
+		};
 	});
 
 	return compact(results);

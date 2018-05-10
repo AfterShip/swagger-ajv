@@ -12,10 +12,11 @@ const {validateGet, validate} = require('./validate_methods');
  * @todo - add support for request other than `GET query` and `POST PUT PATCH DELETE application/json`
  */
 module.exports = ({components, paths, ajvOptions}) => {
-	const ajv = new Ajv(Object.assign({
+	const ajv = new Ajv({
 		allErrors: true,
-		removeAdditional: true
-	}), ajvOptions);
+		removeAdditional: true,
+		...ajvOptions
+	});
 
 	ajv.addSchema({
 		$id: '_',

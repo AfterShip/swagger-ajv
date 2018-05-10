@@ -106,8 +106,9 @@ exports.validateGet = (validator, data, to_validate) => {
 			const parameters_required = parameters.filter(({required}) => required).map(({name}) => name);
 
 			const parameters_properties = Object.values(parameters).reduce(
-				(acc, {name, schema}) => Object.assign(acc, {
-					[name]: prefixStringValue(schema, '$ref', '_')
+				(acc, {name, schema}) => ({
+					[name]: prefixStringValue(schema, '$ref', '_'),
+					...acc
 				}),
 				{}
 			);
