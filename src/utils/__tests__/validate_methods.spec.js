@@ -8,7 +8,7 @@ const ajv = new Ajv({
 });
 
 describe('validateGet', () => {
-	const dataFactory = (data, ps) => Object.assign({
+	const dataFactory = (data, ps) => ({
 		parameters: [
 			{
 				in: 'query',
@@ -27,26 +27,42 @@ describe('validateGet', () => {
 				}
 			},
 			...ps
-		]
-	}, data);
+		],
+		...data
+	});
 
-	const validatorFactory = validator => Object.assign({
-		validate: jest.fn((schema, to_validate) => {
-			return ajv.validate(schema, to_validate);
-		})
-	}, validator);
+	const validatorFactory = validator => ({
+		validate: jest.fn((schema, toValidate) => {
+			return ajv.validate(schema, toValidate);
+		}),
+		...validator
+	});
 
-	const queryFactory = (queries) => Object.assign({
-		a: 'a'
-	}, queries);
+	const queryFactory = (queries) => ({
+		a: 'a',
+		...queries
+	});
+
+	it('should validate request with empty query and parameters', () => {
+		const validator = validatorFactory({});
+		const data = dataFactory({}, []);
+
+		const isValid = validateGet(validator, data, {
+			query: {},
+			params: {}
+		});
+		expect(isValid).toEqual(true);
+	});
 
 	it('should validate request', () => {
 		const validator = validatorFactory({});
 		const data = dataFactory({}, []);
 		const query = queryFactory({});
 
-		const is_valid = validateGet(validator, data, query);
-		expect(is_valid).toEqual(true);
+		const isValid = validateGet(validator, data, {
+			query
+		});
+		expect(isValid).toEqual(true);
 	});
 
 	it('should not validate request with missing required parameters', () => {
@@ -63,8 +79,10 @@ describe('validateGet', () => {
 		]);
 		const query = queryFactory({});
 
-		const is_valid = validateGet(validator, data, query);
-		expect(is_valid).toEqual(false);
+		const isValid = validateGet(validator, data, {
+			query
+		});
+		expect(isValid).toEqual(false);
 	});
 
 	it('should not validate request with invalid type', () => {
@@ -74,47 +92,53 @@ describe('validateGet', () => {
 			a: 0
 		});
 
-		const is_valid = validateGet(validator, data, query);
-		expect(is_valid).toEqual(false);
+		const isValid = validateGet(validator, data, {
+			query
+		});
+		expect(isValid).toEqual(false);
 	});
 });
 
 describe('validate', () => {
-	const dataFactory = (data, ps, required) => Object.assign({
+	const dataFactory = (data, ps, required) => ({
 		requestBody: {
 			content: {
 				'application/json': {
 					schema: {
 						type: 'object',
 						required: ['a', ...required],
-						properties: Object.assign({
+						properties: {
 							a: {
 								type: 'string'
-							}
-						}, ps)
+							},
+							...ps
+						}
 					}
 				}
 			}
-		}
-	}, data);
+		},
+		...data
+	});
 
-	const validatorFactory = validator => Object.assign({
-		validate: jest.fn((schema, to_validate) => {
-			return ajv.validate(schema, to_validate);
-		})
-	}, validator);
+	const validatorFactory = validator => ({
+		validate: jest.fn((schema, toValidate) => {
+			return ajv.validate(schema, toValidate);
+		}),
+		...validator
+	});
 
-	const bodyFactory = body => Object.assign({
-		a: 'a'
-	}, body);
+	const bodyFactory = body => ({
+		a: 'a',
+		...body
+	});
 
 	it('should validate request', () => {
 		const validator = validatorFactory({});
 		const data = dataFactory({}, {}, []);
 		const body = bodyFactory({});
 
-		const is_valid = validate(validator, data, body);
-		expect(is_valid).toEqual(true);
+		const isValid = validate(validator, data, body);
+		expect(isValid).toEqual(true);
 	});
 
 	it('should not validate request with missing required property', () => {
@@ -126,8 +150,8 @@ describe('validate', () => {
 		}, {}, ['b']);
 		const body = bodyFactory({});
 
-		const is_valid = validate(validator, data, body);
-		expect(is_valid).toEqual(false);
+		const isValid = validate(validator, data, body);
+		expect(isValid).toEqual(false);
 	});
 
 	it('should not validate request with invalid type', () => {
@@ -137,7 +161,7 @@ describe('validate', () => {
 			a: 0
 		});
 
-		const is_valid = validate(validator, data, body);
-		expect(is_valid).toEqual(false);
+		const isValid = validate(validator, data, body);
+		expect(isValid).toEqual(false);
 	});
 });

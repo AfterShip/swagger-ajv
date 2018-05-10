@@ -9,6 +9,7 @@
 	],
 	"env": {
 		"es5": {
+			"plugins": ["transform-object-rest-spread"],
 			"presets": [
 				["env", {
 					"targets": {

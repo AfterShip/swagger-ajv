@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
+const {merge, chain} = require('lodash');
 const fs = require('fs');
 const path = require('path');
 
@@ -9,7 +9,7 @@ const path = require('path');
  * @param  {string} dir    - absolutePath for the dir
  * @return {Array<String>} - an array of all absolutePath for the directory
  */
-const readdirRecursive = dir => _.chain(fs.readdirSync(dir))
+const readdirRecursive = dir => chain(fs.readdirSync(dir))
 	.map(file => {
 		const absolutePath = path.resolve(dir, file);
 		if (fs.lstatSync(absolutePath).isDirectory()) {
@@ -20,9 +20,9 @@ const readdirRecursive = dir => _.chain(fs.readdirSync(dir))
 	.flattenDeep()
 	.value();
 
-module.exports = schemas_dir => readdirRecursive(schemas_dir)
+module.exports = schemasDir => readdirRecursive(schemasDir)
 	.reduce(
-		(acc, file) => _.merge(
+		(acc, file) => merge(
 			acc,
 			require(file)
 		),
