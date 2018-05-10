@@ -41,7 +41,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 				});
 				break;
 			case 'GET':
-				isValid = validateGet(ajv, data, query, {
+				isValid = validateGet(ajv, data, {
 					query,
 					params
 				});
