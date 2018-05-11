@@ -13,7 +13,6 @@ const parseDirStructure = (absoluteRootPath, absoluteFilePath) => (
 	trimExt(absoluteFilePath)
 		.replace(`${absoluteRootPath}/`, '')
 		.split('/')
-		.join('.')
 );
 
 /**
