@@ -5,8 +5,8 @@ const fs = require('fs');
 const path = require('path');
 
 const trimExt = filePath => {
-	const parsedFilePath = path.parse(filePath);
-	return `${parsedFilePath.dir}/${parsedFilePath.name}`;
+	const {dir, name} = path.parse(filePath);
+	return `${dir}/${name}`;
 };
 
 const parseDirStructure = (absoluteRootPath, absoluteFilePath) => (
