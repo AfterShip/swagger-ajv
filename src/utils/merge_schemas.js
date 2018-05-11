@@ -4,7 +4,10 @@ const {merge, chain, set} = require('lodash');
 const fs = require('fs');
 const path = require('path');
 
-const trimExt = filePath => `${path.parse(filePath).dir}/${path.parse(filePath).name}`;
+const trimExt = filePath => {
+	const parsedFilePath = path.parse(filePath);
+	return `${parsedFilePath.dir}/${parsedFilePath.name}`;
+};
 
 const parseDirStructure = (absoluteRootPath, absoluteFilePath) => (
 	trimExt(absoluteFilePath)
