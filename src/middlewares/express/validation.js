@@ -10,7 +10,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 			body,
 			method,
 			params,
-			path: route,
+			route,
 			query
 		} = req;
 
@@ -19,7 +19,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 			method,
 			params,
 			query,
-			route
+			route: route.path
 		});
 
 		return next();
