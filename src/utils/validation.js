@@ -23,7 +23,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 		components
 	});
 
-	return ({body, method, params, query, route}) => {
+	return ({body, headers, method, params, query, route}) => {
 		const path = route.replace(/:[^/]*/, match => `{${match.slice(1)}}`);
 		const data = paths[path][method.toLowerCase()];
 
@@ -36,14 +36,16 @@ module.exports = ({components, paths, ajvOptions}) => {
 				isValids.push(
 					validate(ajv, data, body),
 					validateGet(ajv, data, {
-						query,
-						path: params
+						headers,
+						path: params,
+						query
 					})
 				);
 				break;
 			case 'GET':
 				isValids.push(
 					validateGet(ajv, data, {
+						headers,
 						query,
 						path: params
 					}),

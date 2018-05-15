@@ -14,12 +14,14 @@ module.exports = ({components, paths, ajvOptions}) => {
 
 		const {
 			body,
+			headers,
 			query
 		} = ctx.request;
 
 		try {
 			validate({
 				body,
+				headers,
 				method,
 				params,
 				query,
