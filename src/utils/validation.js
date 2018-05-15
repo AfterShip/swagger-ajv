@@ -36,7 +36,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 				isValids.push(
 					validate(ajv, data, body),
 					validateGet(ajv, data, {
-						headers,
+						header: headers,
 						path: params,
 						query
 					})
@@ -45,7 +45,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 			case 'GET':
 				isValids.push(
 					validateGet(ajv, data, {
-						headers,
+						header: headers,
 						query,
 						path: params
 					}),
