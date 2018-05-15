@@ -18,7 +18,10 @@ exports.parse = errors => {
 		} = error;
 
 		const result = {
-			parentSchemaId: parentSchema.$id
+			parentSchemaId: parentSchema.$id,
+			ajvError: {
+				...error
+			}
 		};
 
 		const path = `data${dataPath}`;

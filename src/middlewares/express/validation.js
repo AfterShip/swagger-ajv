@@ -8,6 +8,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 	return (req, _res, next) => {
 		const {
 			body,
+			headers,
 			method,
 			params,
 			route,
@@ -16,6 +17,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 
 		validate({
 			body,
+			headers,
 			method,
 			params,
 			query,
