@@ -3,7 +3,7 @@
 const Ajv = require('ajv');
 
 const errorParser = require('./error_parser');
-const {validateGet, validate} = require('./validate_methods');
+const {combineRequestSchemas} = require('./combine_request_schemas');
 
 /**
  uses ajv to validate request parameters against schema determined by request route and request method
@@ -27,36 +27,32 @@ module.exports = ({components, paths, ajvOptions}) => {
 		const path = route.replace(/:[^/]*/, match => `{${match.slice(1)}}`);
 		const data = paths[path][method.toLowerCase()];
 
-		const isValids = [];
+		let toValidate = {};
 		switch (method) {
 			case 'POST':
 			case 'PUT':
 			case 'PATCH':
 			case 'DELETE':
-				isValids.push(
-					validate(ajv, data, body),
-					validateGet(ajv, data, {
-						header: headers,
-						path: params,
-						query
-					})
-				);
+				toValidate = {
+					header: headers,
+					path: params,
+					body
+				};
 				break;
 			case 'GET':
-				isValids.push(
-					validateGet(ajv, data, {
-						header: headers,
-						query,
-						path: params
-					}),
-					true
-				);
+				toValidate = {
+					header: headers,
+					query,
+					path: params
+				};
 				break;
 			default:
 				throw new Error('Method not allowed');
 		}
 
-		if (!isValids.every(isValid => isValid)) {
+		const combinedSchema = combineRequestSchemas(data, Object.keys(toValidate));
+		const isValid = ajv.validate(combinedSchema, toValidate);
+		if (!isValid) {
 			const error = new Error('Schema validation error');
 
 			if (ajv.errors) {
