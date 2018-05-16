@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`combineRequestSchemas combines schemas for req properties 1`] = `
+Object {
+  "properties": Object {
+    "body": Object {
+      "$ref": "_#/components/schemas/SuccessfulResponse",
+    },
+    "path": Object {
+      "properties": Object {
+        "b": Object {
+          "$ref": "_#/components/parameters/b",
+        },
+      },
+      "required": Array [],
+      "type": "object",
+    },
+    "query": Object {
+      "properties": Object {
+        "a": Object {
+          "$ref": "_#/components/parameters/a",
+        },
+      },
+      "required": Array [
+        "a",
+      ],
+      "type": "object",
+    },
+  },
+  "type": "object",
+}
+`;
+
+exports[`getBodySchema returns schema in requestBody and prefix $ref 1`] = `
+Object {
+  "$ref": "_#/components/schemas/SuccessfulResponse",
+}
+`;
+
+exports[`getParametersSchema transforms swagger schema in parameters to json-schema format and prefix $ref 1`] = `
+Object {
+  "properties": Object {
+    "a": Object {
+      "$ref": "_#/components/parameters/a",
+    },
+  },
+  "required": Array [
+    "a",
+  ],
+  "type": "object",
+}
+`;

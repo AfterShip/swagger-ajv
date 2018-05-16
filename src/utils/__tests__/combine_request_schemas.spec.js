@@ -19,10 +19,7 @@ describe('getBodySchema', () => {
 				}
 			}
 		};
-		const expected = {
-			$ref: '_#/components/schemas/SuccessfulResponse'
-		};
-		expect(getBodySchema(data)).toEqual(expected);
+		expect(getBodySchema(data)).toMatchSnapshot();
 	});
 
 	it('returns empty object if there is no requestBody in the schema', () => {
@@ -51,16 +48,7 @@ describe('getParametersSchema', () => {
 				}
 			]
 		};
-		const expected = {
-			type: 'object',
-			required: ['a'],
-			properties: {
-				a: {
-					$ref: '_#/components/parameters/a'
-				}
-			}
-		};
-		expect(getParametersSchema(data, 'query')).toEqual(expected);
+		expect(getParametersSchema(data, 'query')).toMatchSnapshot();
 	});
 
 	it('returns empty object if there is no parameters in the schema', () => {
@@ -122,32 +110,6 @@ describe('combineRequestSchemas', () => {
 			}
 		};
 		const toValidateKeys = ['query', 'path', 'body'];
-		const expected = {
-			type: 'object',
-			properties: {
-				query: {
-					type: 'object',
-					required: ['a'],
-					properties: {
-						a: {
-							$ref: '_#/components/parameters/a'
-						}
-					}
-				},
-				path: {
-					type: 'object',
-					required: [],
-					properties: {
-						b: {
-							$ref: '_#/components/parameters/b'
-						}
-					}
-				},
-				body: {
-					$ref: '_#/components/schemas/SuccessfulResponse'
-				}
-			}
-		};
-		expect(combineRequestSchemas(data, toValidateKeys)).toEqual(expected);
+		expect(combineRequestSchemas(data, toValidateKeys)).toMatchSnapshot();
 	});
 });
