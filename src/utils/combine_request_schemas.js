@@ -83,44 +83,49 @@ const getDeep = (data, path) => {
 	return undefined;
 };
 
-exports.validate = (validator, data, toValidate) => {
-	if (!data.requestBody) return true;
-	const schema = getDeep(data, 'schema');
-	const schemaPrefixRef = prefixStringValue(schema, '$ref', '_');
-
-	// schema must be present to validate the request body
-	if (!isJsonObject(schemaPrefixRef)) return false;
-
-	return validator.validate(schemaPrefixRef, toValidate);
+exports.getBodySchema = (data) => {
+	if (!data.requestBody) return {};
+	const schema = getDeep(data.requestBody, 'schema');
+	return prefixStringValue(schema, '$ref', '_');
 };
+const {getBodySchema} = exports;
 
-exports.validateGet = (validator, data, toValidate) => {
-	if (!data.parameters) return true;
+exports.getParametersSchema = (data, key) => {
+	if (!data.parameters) return {};
 
-	const results = Object.keys(toValidate).map(
-		key => {
-			const parameters = data.parameters.filter(parameter => parameter.in === key);
+	const parameters = data.parameters.filter(parameter => parameter.in === key);
 
-			if (!parameters.length) return true;
+	if (!parameters.length) return {};
 
-			const parametersRequired = parameters.filter(({required}) => required).map(({name}) => name);
+	const parametersRequired = parameters.filter(({required}) => required).map(({name}) => name);
 
-			const parametersProperties = Object.values(parameters).reduce(
-				(acc, {name, schema}) => ({
-					[name]: prefixStringValue(schema, '$ref', '_'),
-					...acc
-				}),
-				{}
-			);
+	const parametersProperties = Object.values(parameters).reduce(
+		(acc, {name, schema}) => ({
+			[name]: prefixStringValue(schema, '$ref', '_'),
+			...acc
+		}),
+		{}
+	);
 
-			const schemaPrefixRef = {
-				type: 'object',
-				required: parametersRequired,
-				properties: parametersProperties
-			};
+	return {
+		type: 'object',
+		required: parametersRequired,
+		properties: parametersProperties
+	};
+};
+const {getParametersSchema} = exports;
 
-			return validator.validate(schemaPrefixRef, toValidate[key]);
-		});
+exports.combineRequestSchemas = (data, toValidateKeys) => {
+	const properties = toValidateKeys.reduce(
+		(schemaAcc, key) => {
+			const schema = key === 'body'
+				? getBodySchema(data)
+				: getParametersSchema(data, key);
+			return {...schemaAcc, [key]: schema};
+		}, {});
 
-	return results.every(result => result);
+	return {
+		type: 'object',
+		properties
+	};
 };
