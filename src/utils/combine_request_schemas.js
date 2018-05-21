@@ -117,12 +117,14 @@ const {getParametersSchema} = exports;
 
 exports.combineRequestSchemas = (data, toValidateKeys) => {
 	const properties = toValidateKeys.reduce(
-		(schemaAcc, key) => {
-			const schema = key === 'body'
+		(schemaAcc, key) => ({
+			...schemaAcc,
+			[key]: key === 'body'
 				? getBodySchema(data)
-				: getParametersSchema(data, key);
-			return {...schemaAcc, [key]: schema};
-		}, {});
+				: getParametersSchema(data, key)
+		}),
+		{}
+	);
 
 	return {
 		type: 'object',

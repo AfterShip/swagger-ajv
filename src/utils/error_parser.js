@@ -4,10 +4,14 @@ const {map, compact} = require('lodash');
 
 exports.parse = errors => {
 	const results = errors.map(error => {
-		const dataPath = error.dataPath.replace(
-			/\[\d+\]/g,
-			x => x.replace(/\[/, '.').replace(/\]/, '')
-		);
+		const [,, ...dataPath] = error.dataPath
+			.replace(
+				/\[\d+\]/g,
+				x => x.replace(/\[/, '.').replace(/\]/, '')
+			)
+			.split('.');
+
+		const path = ['data', ...dataPath].join('.');
 
 		const {
 			keyword,
@@ -23,8 +27,6 @@ exports.parse = errors => {
 				...error
 			}
 		};
-
-		const path = `data${dataPath}`;
 
 		if (parentSchema.errorMessage) {
 			return {
@@ -59,7 +61,7 @@ exports.parse = errors => {
 		}
 
 		if (keyword === 'required') {
-			const requiredPath = `data${dataPath}.${params.missingProperty}`;
+			const requiredPath = `${path}.${params.missingProperty}`;
 			return {
 				path: requiredPath,
 				info: `${requiredPath} is a required property`,
