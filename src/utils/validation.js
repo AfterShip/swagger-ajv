@@ -1,6 +1,7 @@
 'use strict';
 
 const Ajv = require('ajv');
+const {omit} = require('lodash');
 
 const errorParser = require('./error_parser');
 const {combineRequestSchemas} = require('./combine_request_schemas');
@@ -56,7 +57,9 @@ module.exports = ({components, paths, ajvOptions}) => {
 			const error = new Error('Schema validation error');
 
 			if (ajv.errors) {
-				error.details = errorParser.parse(ajv.errors);
+				const errors = errorParser.parse(ajv.errors);
+				error.details = errors.map(e => omit(e, ['ajvError']));
+				error.ajvErrors = errors.map(e => e.ajvError);
 			}
 
 			throw error;
