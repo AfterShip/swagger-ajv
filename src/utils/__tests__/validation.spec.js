@@ -67,7 +67,7 @@ describe('validation', () => {
 			validate({
 				body: {},
 				headers: {},
-				method: 'GET',
+				method: 'get',
 				params: {},
 				query: {
 					query: 'query'
@@ -82,7 +82,7 @@ describe('validation', () => {
 			validate({
 				body: {},
 				headers: {},
-				method: 'GET',
+				method: 'get',
 				params: {},
 				query: {
 					query: 'body'
@@ -103,7 +103,7 @@ describe('validation', () => {
 					body: 1
 				},
 				headers: {},
-				method: 'POST',
+				method: 'post',
 				params: {},
 				query: {},
 				route: '/post'
@@ -120,7 +120,7 @@ describe('validation', () => {
 					}
 				},
 				headers: {},
-				method: 'POST',
+				method: 'post',
 				params: {},
 				query: {},
 				route: '/post'

@@ -4,7 +4,7 @@ exports[`validation invalid get request 1`] = `"Schema validation error"`;
 
 exports[`validation invalid get request 2`] = `
 Object {
-  "ajvErrors": Array [
+  "ajv": Array [
     Object {
       "dataPath": ".query.query",
       "keyword": "enum",
@@ -31,7 +31,7 @@ exports[`validation invalid post request 1`] = `"Schema validation error"`;
 
 exports[`validation invalid post request 2`] = `
 Object {
-  "ajvErrors": Array [
+  "ajv": Array [
     Object {
       "dataPath": ".body.body",
       "keyword": "type",
