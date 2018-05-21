@@ -8,8 +8,9 @@ module.exports = ({components, paths, ajvOptions}) => {
 	return (ctx, next) => {
 		const {
 			_matchedRoute: route,
+			matched,
 			method,
-			params
+			path
 		} = ctx;
 
 		const {
@@ -17,6 +18,12 @@ module.exports = ({components, paths, ajvOptions}) => {
 			headers,
 			query
 		} = ctx.request;
+
+		// koa router params might not be available to the middleware
+		// https://github.com/alexmingoia/koa-router/issues/452
+		const layer = matched[matched.length - 1];
+		const captures = layer.captures(path);
+		const params = layer.params(path, captures, {});
 
 		try {
 			validate({
