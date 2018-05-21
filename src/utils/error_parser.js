@@ -46,7 +46,7 @@ exports.parse = errors => {
 		if (keyword === 'enum') {
 			return {
 				path,
-				info: `${path} should be equal to one of values ${JSON.stringify(schema)}`,
+				info: `${path} should be equal to one of values ${JSON.stringify(params.allowedValues)}`,
 				...result
 			};
 		}
