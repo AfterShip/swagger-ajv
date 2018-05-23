@@ -10,7 +10,9 @@ const trimExt = filePath => {
 };
 
 const parseDirStructure = (absoluteRootPath, absoluteFilePath) => {
-	const [,, ...dirStructure] = trimExt(absoluteFilePath).split(path.sep);
+	const [, ...dirStructure] = trimExt(absoluteFilePath)
+		.replace(absoluteRootPath, '')
+		.split(path.sep);
 	return dirStructure;
 };
 
