@@ -51,9 +51,18 @@ module.exports = ({components, paths, ajvOptions}) => {
 				throw new Error('Method not allowed');
 		}
 
-		const combinedSchema = combinedSchemas[path] && combinedSchemas[path][method]
-			? combinedSchemas[path][method]
-			: combineRequestSchemas(data, Object.keys(toValidate));
+		let combinedSchema;
+
+		if (combinedSchemas[path] && combinedSchemas[path][method]) {
+			combinedSchema = combinedSchemas[path][method];
+		} else {
+			combinedSchema = combineRequestSchemas(data, Object.keys(toValidate));
+
+			combinedSchemas[path] = {
+				...combinedSchema[path],
+				[method]: combinedSchema
+			};
+		}
 
 		const isValid = ajv.validate(combinedSchema, toValidate);
 		if (!isValid) {
