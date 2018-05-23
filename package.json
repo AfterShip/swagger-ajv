@@ -1,7 +1,7 @@
 {
 	"name": "@aftership/swagger-ajv",
 	"description": "middleware for validation and documentation",
-	"version": "0.2.1",
+	"version": "0.3.0",
 	"homepage": "https://github.com/AfterShip/swagger-ajv",
 	"author": {
 		"name": "tushar",
@@ -45,5 +45,5 @@
 		"husky": "^0.14.3",
 		"jest": "^22.4.3"
 	},
-	"license": "UNLICENSED"
+	"license": "MIT"
 }
