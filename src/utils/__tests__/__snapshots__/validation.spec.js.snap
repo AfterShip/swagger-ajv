@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validation invalid get request 1`] = `"Schema validation error"`;
+
+exports[`validation invalid get request 2`] = `
+Object {
+  "ajv": Array [
+    Object {
+      "dataPath": ".query.query",
+      "keyword": "enum",
+      "message": "should be equal to one of the allowed values",
+      "params": Object {
+        "allowedValues": Array [
+          "query",
+        ],
+      },
+      "schemaPath": "#/properties/query/properties/query/enum",
+    },
+  ],
+  "details": Array [
+    Object {
+      "info": "data.query should be equal to one of values [\\"query\\"]",
+      "parentSchemaId": undefined,
+      "path": "data.query",
+    },
+  ],
+}
+`;
+
+exports[`validation invalid post request 1`] = `"Schema validation error"`;
+
+exports[`validation invalid post request 2`] = `
+Object {
+  "ajv": Array [
+    Object {
+      "dataPath": ".body.body",
+      "keyword": "type",
+      "message": "should be number",
+      "params": Object {
+        "type": "number",
+      },
+      "schemaPath": "#/properties/body/properties/body/type",
+    },
+  ],
+  "details": Array [
+    Object {
+      "info": "data.body should be number",
+      "parentSchemaId": undefined,
+      "path": "data.body",
+    },
+  ],
+}
+`;

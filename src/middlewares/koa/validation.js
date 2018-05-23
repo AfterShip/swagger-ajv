@@ -29,7 +29,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 			validate({
 				body,
 				headers,
-				method,
+				method: method.toLowerCase(),
 				params,
 				query,
 				route

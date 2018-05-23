@@ -6,14 +6,13 @@ const path = require('path');
 
 const trimExt = filePath => {
 	const {dir, name} = path.parse(filePath);
-	return `${dir}/${name}`;
+	return path.join(dir, name);
 };
 
-const parseDirStructure = (absoluteRootPath, absoluteFilePath) => (
-	trimExt(absoluteFilePath)
-		.replace(`${absoluteRootPath}/`, '')
-		.split('/')
-);
+const parseDirStructure = (absoluteRootPath, absoluteFilePath) => {
+	const [,, ...dirStructure] = trimExt(absoluteFilePath).split(path.sep);
+	return dirStructure;
+};
 
 /**
  * read directory recursively
@@ -31,12 +30,12 @@ const readdirRecursive = dir => chain(fs.readdirSync(dir))
 	.flattenDeep()
 	.value();
 
-module.exports = (schemasDir, {
+module.exports = function mergeSchemas(schemasDir, {
 	useDirStructure = false
-} = {}) => {
+} = {}) {
 	const absoluteSchemasPath = path.resolve(schemasDir);
 
-	return readdirRecursive(schemasDir)
+	const schemas = readdirRecursive(schemasDir)
 		.reduce(
 			(acc, file) => merge(
 				acc,
@@ -46,7 +45,30 @@ module.exports = (schemasDir, {
 			),
 			{}
 		);
+
+	return {
+		ajv: schemas,
+		swagger: formatSwagger(schemas)
+	};
 };
 
 module.exports.parseDirStructure = parseDirStructure;
 module.exports.readdirRecursive = readdirRecursive;
+
+function formatSwagger(schemas) {
+	return JSON.parse(JSON.stringify(schemas), (k, v) => {
+		if (k === 'type' && Array.isArray(v)) {
+			if (v.length > 2) {
+				throw new TypeError('type accepts <type> OR [<type>, "null"]');
+			}
+
+			if (v[1] === 'null') {
+				return v[0];
+			}
+
+			throw new TypeError('type accepts <type> OR [<type>, "null"]');
+		}
+
+		return v;
+	});
+}

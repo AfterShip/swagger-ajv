@@ -7,10 +7,8 @@ const errorParser = require('./error_parser');
 const {combineRequestSchemas} = require('./combine_request_schemas');
 
 /**
- uses ajv to validate request parameters against schema determined by request route and request method
+ * uses ajv to validate request parameters against schema determined by request route and request method
  * $ref will resolve only `#/components/schemas/...` same as openapi schema
- *
- * @todo - add support for request other than `GET query` and `POST PUT PATCH DELETE application/json`
  */
 module.exports = ({components, paths, ajvOptions}) => {
 	const ajv = new Ajv({
@@ -24,23 +22,25 @@ module.exports = ({components, paths, ajvOptions}) => {
 		components
 	});
 
+	const combinedSchemas = {};
+
 	return ({body, headers, method, params, query, route}) => {
 		const path = route.replace(/:[^/]*/, match => `{${match.slice(1)}}`);
-		const data = paths[path][method.toLowerCase()];
+		const data = paths[path][method];
 
 		let toValidate = {};
 		switch (method) {
-			case 'POST':
-			case 'PUT':
-			case 'PATCH':
-			case 'DELETE':
+			case 'post':
+			case 'put':
+			case 'patch':
+			case 'delete':
 				toValidate = {
 					header: headers,
 					path: params,
 					body
 				};
 				break;
-			case 'GET':
+			case 'get':
 				toValidate = {
 					header: headers,
 					query,
@@ -51,15 +51,27 @@ module.exports = ({components, paths, ajvOptions}) => {
 				throw new Error('Method not allowed');
 		}
 
-		const combinedSchema = combineRequestSchemas(data, Object.keys(toValidate));
+		let combinedSchema;
+
+		if (combinedSchemas[path] && combinedSchemas[path][method]) {
+			combinedSchema = combinedSchemas[path][method];
+		} else {
+			combinedSchema = combineRequestSchemas(data, Object.keys(toValidate));
+
+			combinedSchemas[path] = {
+				...combinedSchema[path],
+				[method]: combinedSchema
+			};
+		}
+
 		const isValid = ajv.validate(combinedSchema, toValidate);
 		if (!isValid) {
 			const error = new Error('Schema validation error');
 
 			if (ajv.errors) {
 				const errors = errorParser.parse(ajv.errors);
-				error.details = errors.map(e => omit(e, ['ajvError']));
-				error.ajvErrors = errors.map(e => e.ajvError);
+				error.details = errors.map(e => omit(e, ['ajv']));
+				error.ajv = errors.map(e => e.ajv);
 			}
 
 			throw error;

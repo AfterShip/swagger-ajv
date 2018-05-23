@@ -1,0 +1,9 @@
+{
+  "components": {
+    "schemas": {
+      "Component": {
+        "type": "object"
+      }
+    }
+  }
+}

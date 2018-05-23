@@ -44,14 +44,11 @@ const isJsonObject = data => {
  */
 const prefixStringValue = (data, key, prefix) => {
 	if (!isJsonObject(data)) return undefined;
-	try {
-		return JSON.parse(JSON.stringify(data), (k, v) => {
-			if (k === key) return `${prefix}${v}`;
-			return v;
-		});
-	} catch (_error) {
-		return undefined;
-	}
+
+	return JSON.parse(JSON.stringify(data), (k, v) => {
+		if (k === key) return `${prefix}${v}`;
+		return v;
+	});
 };
 
 /**

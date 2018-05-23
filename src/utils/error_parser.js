@@ -23,7 +23,7 @@ exports.parse = errors => {
 
 		const result = {
 			parentSchemaId: parentSchema.$id,
-			ajvError: {
+			ajv: {
 				...error
 			}
 		};
@@ -46,7 +46,7 @@ exports.parse = errors => {
 		if (keyword === 'enum') {
 			return {
 				path,
-				info: `${path} should be equal to one of values ${JSON.stringify(schema)}`,
+				info: `${path} should be equal to one of values ${JSON.stringify(params.allowedValues)}`,
 				...result
 			};
 		}
@@ -73,14 +73,6 @@ exports.parse = errors => {
 			return {
 				path,
 				info: `${path} should match format ${params.format}`,
-				...result
-			};
-		}
-
-		if (keyword === 'eitherOneOfPropertiesRequired') {
-			return {
-				path,
-				info: `${message}`,
 				...result
 			};
 		}
