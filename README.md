@@ -10,7 +10,7 @@ Compatible with node >= 4
 
 NOTE: The middleware must be applied to the router not the application when using koa.
 
-The documentation should be written using OpenAPI 3.0 specification with the differences listed below. The differences with JSON schema can be noted [here] (https://swagger.io/docs/specification/data-models/keywords). When writing schema for your application please note that the keywords must be used in a way that can be supported by both Swagger and AJV.
+The documentation should be written using OpenAPI 3.0 specification with the differences listed below. The differences with JSON schema can be noted [here](https://swagger.io/docs/specification/data-models/keywords). When writing schema for your application please note that the keywords must be used in a way that can be supported by both Swagger and AJV.
 
 - `type` can be an array with `"null"` as the second element when `"nullable": true` property needs to be used as mentioned in the OpenAPI.
 
@@ -40,6 +40,11 @@ yarn build
 - Express `examples/express.js`
 - Koa `examples/koa.js`
 
-# Credits
-- [AJV] (https://github.com/epoberezkin/ajv)
-- [Swagger] (https://github.com/swagger-api/swagger-ui)
+## Credits
+
+- [AJV](https://github.com/epoberezkin/ajv)
+- [Swagger](https://github.com/swagger-api/swagger-ui)
+
+## License
+
+[MIT](https://github.com/AfterShip/swagger-ajv/blob/master/LICENSE.md)
