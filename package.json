@@ -1,5 +1,5 @@
 {
-	"name": "@aftership/swagger-ajv",
+	"name": "swagger-ajv",
 	"description": "middleware for validation and documentation",
 	"version": "0.3.1",
 	"homepage": "https://github.com/AfterShip/swagger-ajv",
