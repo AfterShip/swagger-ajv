@@ -29,16 +29,13 @@
 	},
 	"dependencies": {
 		"ajv": "~6.3.0",
-		"core-js": "^2.5.6",
 		"lodash": "^4.17.10",
-		"pug": "^2.0.3",
-		"regenerator-runtime": "^0.11.1"
+		"pug": "^2.0.3"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
 		"babel-core": "^6.26.0",
 		"babel-plugin-transform-object-rest-spread": "^6.26.0",
-		"babel-polyfill": "^6.26.0",
 		"babel-preset-env": "^1.6.1",
 		"eslint": "^4.19.1",
 		"eslint-config-aftership": "^4.3.0",
