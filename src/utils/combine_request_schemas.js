@@ -1,6 +1,6 @@
 'use strict';
 
-const {get} = require('lodash');
+const {get, values} = require('lodash');
 
 /**
  * check if the given object is JSON object type assuming that the given data is valid JSON
@@ -72,7 +72,7 @@ const getDeep = (data, path) => {
 		if (result) return result;
 	}
 
-	for (const value of Object.values(data)) {
+	for (const value of values(data)) {
 		const result = getDeep(value, path);
 		if (result) return result;
 	}
@@ -96,7 +96,7 @@ exports.getParametersSchema = (data, key) => {
 
 	const parametersRequired = parameters.filter(({required}) => required).map(({name}) => name);
 
-	const parametersProperties = Object.values(parameters).reduce(
+	const parametersProperties = values(parameters).reduce(
 		(acc, {name, schema}) => ({
 			[name]: prefixStringValue(schema, '$ref', '_'),
 			...acc

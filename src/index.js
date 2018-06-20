@@ -1,7 +1,5 @@
 'use strict';
 
-require('babel-polyfill');
-
 exports.middlewares = {
 	express: {
 		docs: require('./middlewares/express/docs'),

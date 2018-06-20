@@ -4,8 +4,7 @@
 			"targets": {
 				"node": 4
 			},
-			"modules": false,
-			"useBuiltIns": true
+			"modules": false
 		}]
 	],
 	"env": {
