@@ -37,8 +37,122 @@ yarn build
 
 ## Examples
 
+### Define schemas for your application
+
+> Componenet.json
+
+schema for new component should be defined under `components.schemas` if written in separate files
+```json
+{
+  "components": {
+    "schemas": {
+      "Component": {
+        "type": "object"
+      }
+    }
+  }
+}
+```
+
+> swagger.json
+
+keys other than `components` and `paths` defined in a separate file
+```json
+{
+  "openapi": "3.0.0"
+}
+```
+
+> path.json
+
+schema for a path should be defined as under `paths` key if written in separate files
+```json
+{
+  "paths": {
+    "/post": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": ["string", "null"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Component"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Write middleware in your favourite framework
+
 - Express `examples/express.js`
+
+```
+'use strict';
+
+const path = require('path');
+
+const swaggerAjv = require('../src');
+
+const {docs, validation} = swaggerAjv.middlewares.express;
+
+const {mergeSchemas} = swaggerAjv.utils;
+
+// load schema definitions
+const schemas = mergeSchemas(
+	path.resolve(__dirname, 'schemas')
+);
+
+// export middlewares for your application
+exports.docs = docs(schemas.swagger);
+exports.validation = validation(schemas.ajv);
+```
+
 - Koa `examples/koa.js`
+
+```
+'use strict';
+
+const path = require('path');
+
+const swaggerAjv = require('../src');
+
+const {docs, validation} = swaggerAjv.middlewares.koa;
+
+const {mergeSchemas} = swaggerAjv.utils;
+
+// load schema definitions
+const schemas = mergeSchemas(
+	path.resolve(__dirname, 'schemas')
+);
+
+// export middlewares for your application
+exports.docs = docs(schemas.swagger);
+exports.validation = validation(schemas.ajv);
+```
 
 ## Credits
 
