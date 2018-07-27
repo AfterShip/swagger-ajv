@@ -13,7 +13,7 @@ const {combineRequestSchemas} = require('./combine_request_schemas');
 module.exports = ({components, paths, ajvOptions}) => {
 	const ajv = new Ajv({
 		allErrors: true,
-		removeAdditional: true,
+		removeAdditional: false,
 		...ajvOptions
 	});
 
