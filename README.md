@@ -52,7 +52,12 @@ pass an object should contain `components`, `paths` and `ajvOptions`
 
 ### Utils
 
-swaggerAjv.mergeSchemas
+> swaggerAjv.mergeSchemas
+the first parameter is a string specifying the path of the folder containing schemas
+the second parameter specifies the options on how the schemas are read
+
+1. `useDirStructre`
+
 
 
 ## Test
