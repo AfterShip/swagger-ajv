@@ -39,6 +39,17 @@ swaggerAjv.middlewares.koa
 - docs
 - validation
 
+> docs
+
+pass the schema object as specified by openapi
+
+> validation
+
+pass an object should contain `components`, `paths` and `ajvOptions`
+`paths` and `components` are the schemas that can be referenced from `ajv` to use
+`ajvOptions` are all the options that can be passed to initialise an `ajv` instance
+
+
 ### Utils
 
 swaggerAjv.mergeSchemas
