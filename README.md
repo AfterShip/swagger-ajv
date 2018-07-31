@@ -23,6 +23,27 @@ The documentation should be written using OpenAPI 3.0 specification with the dif
 "nullable": true
 ```
 
+## Reference
+
+`swaggerAjv` is used to refer to the library which would be required as `require('swagger-ajv')`
+
+### Middlewares
+
+swaggerAjv.middlewares.express
+
+- docs
+- validation
+
+swaggerAjv.middlewares.koa
+
+- docs
+- validation
+
+### Utils
+
+swaggerAjv.mergeSchemas
+
+
 ## Test
 
 ```
@@ -126,9 +147,15 @@ const schemas = mergeSchemas(
 	path.resolve(__dirname, 'schemas')
 );
 
+// define ajvOptions
+const ajvOptions = {};
+
 // export middlewares for your application
 exports.docs = docs(schemas.swagger);
-exports.validation = validation(schemas.ajv);
+exports.validation = validation(Object.assign({
+	schemas.ajv,
+	ajvOptions
+}));
 ```
 
 - Koa `examples/koa.js`
@@ -149,9 +176,15 @@ const schemas = mergeSchemas(
 	path.resolve(__dirname, 'schemas')
 );
 
+// define ajvOptions
+const ajvOptions = {};
+
 // export middlewares for your application
 exports.docs = docs(schemas.swagger);
-exports.validation = validation(schemas.ajv);
+exports.validation = validation(Object.assign({
+	schemas.ajv,
+	ajvOptions
+}));
 ```
 
 ## Credits
