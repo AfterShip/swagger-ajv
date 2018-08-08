@@ -3,6 +3,7 @@
 const {merge, chain, set} = require('lodash');
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 
 const trimExt = filePath => {
 	const {dir, name} = path.parse(filePath);
@@ -32,6 +33,20 @@ const readdirRecursive = dir => chain(fs.readdirSync(dir))
 	.flattenDeep()
 	.value();
 
+function loadSchema(file) {
+	const extname = path.extname(file);
+	switch (extname) {
+		case '.js':
+		case '.json':
+			return require(file);
+		case '.yml':
+		case '.yaml':
+			return yaml.safeLoad(fs.readFileSync(file, 'utf8'));
+		default:
+			throw new Error(`${extname} not supported in swagger-ajv`);
+	}
+}
+
 module.exports = function mergeSchemas(schemasDir, {
 	useDirStructure = false
 } = {}) {
@@ -42,8 +57,8 @@ module.exports = function mergeSchemas(schemasDir, {
 			(acc, file) => merge(
 				acc,
 				useDirStructure
-					? set({}, parseDirStructure(absoluteSchemasPath, file), require(file))
-					: require(file)
+					? set({}, parseDirStructure(absoluteSchemasPath, file), loadSchema(file))
+					: loadSchema(file)
 			),
 			{}
 		);
