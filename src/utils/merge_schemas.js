@@ -33,14 +33,14 @@ const readdirRecursive = dir => chain(fs.readdirSync(dir))
 	.flattenDeep()
 	.value();
 
-function loadJson(file) {
+function loadSchema(file) {
 	const extname = path.extname(file);
 	switch (extname) {
-		case 'js':
-		case 'json':
+		case '.js':
+		case '.json':
 			return require(file);
-		case 'yml':
-		case 'yaml':
+		case '.yml':
+		case '.yaml':
 			return yaml.safeLoad(fs.readFileSync(file, 'utf8'));
 		default:
 			throw new Error(`${extname} not supported in swagger-ajv`);
@@ -57,8 +57,8 @@ module.exports = function mergeSchemas(schemasDir, {
 			(acc, file) => merge(
 				acc,
 				useDirStructure
-					? set({}, parseDirStructure(absoluteSchemasPath, file), loadJson(file))
-					: loadJson(file)
+					? set({}, parseDirStructure(absoluteSchemasPath, file), loadSchema(file))
+					: loadSchema(file)
 			),
 			{}
 		);
