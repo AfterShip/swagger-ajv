@@ -42,6 +42,7 @@ module.exports = ({components, paths, ajvOptions}) => {
 				};
 				break;
 			case 'get':
+			case 'head':
 				toValidate = {
 					header: headers,
 					query,
