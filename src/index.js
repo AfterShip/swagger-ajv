@@ -14,3 +14,5 @@ exports.middlewares = {
 exports.utils = {
 	mergeSchemas: require('./utils/merge_schemas')
 };
+
+exports.rawAjv = require('ajv');
