@@ -168,10 +168,10 @@ const ajvOptions = {};
 
 // export middlewares for your application
 exports.docs = docs(schemas.swagger);
-exports.validation = validation(Object.assign({
+exports.validation = validation(Object.assign(
 	schemas.ajv,
-	ajvOptions
-}));
+	{ ajvOptions }
+));
 ```
 
 - Koa `examples/koa.js`
@@ -197,10 +197,10 @@ const ajvOptions = {};
 
 // export middlewares for your application
 exports.docs = docs(schemas.swagger);
-exports.validation = validation(Object.assign({
+exports.validation = validation(Object.assign(
 	schemas.ajv,
-	ajvOptions
-}));
+	{ ajvOptions }
+));
 ```
 
 ## Credits
