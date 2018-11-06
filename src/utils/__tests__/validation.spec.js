@@ -32,7 +32,8 @@ describe('validation', () => {
 					'required': true,
 					'schema': {
 						'type': 'string',
-						'enum': ['query']
+						'enum': ['query'],
+						'errorMessage': 'This is a custom error message'
 					}
 				}]
 			}
@@ -46,7 +47,8 @@ describe('validation', () => {
 								'type': 'object',
 								'properties': {
 									'body': {
-										'type': 'number'
+										'type': 'number',
+										'mustPositive': true
 									}
 								},
 								'required': [
@@ -60,7 +62,18 @@ describe('validation', () => {
 		}
 	};
 
-	const validate = validation({components, paths});
+	const validate = validation({
+		components,
+		paths,
+		ajvKeywords: [{
+			name: 'mustPositive',
+			def: {
+				validate: (schema, data) => {
+					return schema ? data > 0 : true;
+				}
+			}
+		}]
+	});
 
 	test('valid get request', () => {
 		expect(

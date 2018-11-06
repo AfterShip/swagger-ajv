@@ -7,19 +7,29 @@ Object {
   "ajv": Array [
     Object {
       "dataPath": ".query.query",
-      "keyword": "enum",
-      "message": "should be equal to one of the allowed values",
+      "keyword": "errorMessage",
+      "message": "This is a custom error message",
       "params": Object {
-        "allowedValues": Array [
-          "query",
+        "errors": Array [
+          Object {
+            "dataPath": ".query.query",
+            "keyword": "enum",
+            "message": "should be equal to one of the allowed values",
+            "params": Object {
+              "allowedValues": Array [
+                "query",
+              ],
+            },
+            "schemaPath": "#/properties/query/properties/query/enum",
+          },
         ],
       },
-      "schemaPath": "#/properties/query/properties/query/enum",
+      "schemaPath": "#/properties/query/properties/query/errorMessage",
     },
   ],
   "details": Array [
     Object {
-      "info": "data.query should be equal to one of values [\\"query\\"]",
+      "info": "data.query This is a custom error message",
       "parentSchemaId": undefined,
       "path": "data.query",
     },
@@ -41,10 +51,24 @@ Object {
       },
       "schemaPath": "#/properties/body/properties/body/type",
     },
+    Object {
+      "dataPath": ".body.body",
+      "keyword": "mustPositive",
+      "message": "should pass \\"mustPositive\\" keyword validation",
+      "params": Object {
+        "keyword": "mustPositive",
+      },
+      "schemaPath": "#/properties/body/properties/body/mustPositive",
+    },
   ],
   "details": Array [
     Object {
       "info": "data.body should be number",
+      "parentSchemaId": undefined,
+      "path": "data.body",
+    },
+    Object {
+      "info": "data.body should pass \\"mustPositive\\" keyword validation",
       "parentSchemaId": undefined,
       "path": "data.body",
     },
