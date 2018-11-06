@@ -2,8 +2,8 @@
 
 const validation = require('../../utils/validation');
 
-module.exports = ({components, paths, ajvOptions}) => {
-	const validate = validation({components, paths, ajvOptions});
+module.exports = ({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions}) => {
+	const validate = validation({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions});
 
 	return (req, _res, next) => {
 		try {
