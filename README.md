@@ -165,12 +165,25 @@ const schemas = mergeSchemas(
 
 // define ajvOptions
 const ajvOptions = {};
+// custom keywarods
+const ajvKeywords = [{
+			name: 'mustPositive',
+			def: {
+				validate: (schema, data) => {
+					return schema ? data > 0 : true;
+				}
+			}
+		}]
+// We have embedded [ajv-errors](https://github.com/epoberezkin/ajv-errors)
+const ajvErrorsOptions = {};
 
 // export middlewares for your application
 exports.docs = docs(schemas.swagger);
 exports.validation = validation(Object.assign(
 	schemas.ajv,
-	{ ajvOptions }
+	{ ajvOptions,
+    ajvKeywords,
+    ajvErrorsOptions }
 ));
 ```
 
@@ -194,12 +207,25 @@ const schemas = mergeSchemas(
 
 // define ajvOptions
 const ajvOptions = {};
+// custom keywarods
+const ajvKeywords = [{
+			name: 'mustPositive',
+			def: {
+				validate: (schema, data) => {
+					return schema ? data > 0 : true;
+				}
+			}
+		}]
+// We have embedded [ajv-errors](https://github.com/epoberezkin/ajv-errors)
+const ajvErrorsOptions = {};
 
 // export middlewares for your application
 exports.docs = docs(schemas.swagger);
 exports.validation = validation(Object.assign(
 	schemas.ajv,
-	{ ajvOptions }
+	{ ajvOptions,
+    ajvKeywords,
+    ajvErrorsOptions  }
 ));
 ```
 
