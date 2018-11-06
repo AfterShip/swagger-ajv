@@ -32,7 +32,8 @@ describe('validation', () => {
 					'required': true,
 					'schema': {
 						'type': 'string',
-						'enum': ['query']
+						'enum': ['query'],
+						'errorMessage': 'This is a custom error message'
 					}
 				}]
 			}

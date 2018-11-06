@@ -7,19 +7,29 @@ Object {
   "ajv": Array [
     Object {
       "dataPath": ".query.query",
-      "keyword": "enum",
-      "message": "should be equal to one of the allowed values",
+      "keyword": "errorMessage",
+      "message": "This is a custom error message",
       "params": Object {
-        "allowedValues": Array [
-          "query",
+        "errors": Array [
+          Object {
+            "dataPath": ".query.query",
+            "keyword": "enum",
+            "message": "should be equal to one of the allowed values",
+            "params": Object {
+              "allowedValues": Array [
+                "query",
+              ],
+            },
+            "schemaPath": "#/properties/query/properties/query/enum",
+          },
         ],
       },
-      "schemaPath": "#/properties/query/properties/query/enum",
+      "schemaPath": "#/properties/query/properties/query/errorMessage",
     },
   ],
   "details": Array [
     Object {
-      "info": "data.query should be equal to one of values [\\"query\\"]",
+      "info": "data.query This is a custom error message",
       "parentSchemaId": undefined,
       "path": "data.query",
     },
