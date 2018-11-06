@@ -5,7 +5,6 @@ const {omit} = require('lodash');
 
 const errorParser = require('./error_parser');
 const {combineRequestSchemas} = require('./combine_request_schemas');
-const ajvFile = require('./swagger_ajv');
 
 /**
  * uses ajv to validate request parameters against schema determined by request route and request method
@@ -17,8 +16,6 @@ module.exports = ({components, paths, ajvOptions}) => {
 		removeAdditional: false,
 		...ajvOptions
 	});
-	// expose ajv so that developers can cusomize it
-	ajvFile.rawAjv = ajv;
 
 	ajv.addSchema({
 		$id: '_',
