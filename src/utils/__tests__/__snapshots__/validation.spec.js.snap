@@ -41,10 +41,24 @@ Object {
       },
       "schemaPath": "#/properties/body/properties/body/type",
     },
+    Object {
+      "dataPath": ".body.body",
+      "keyword": "mustPositive",
+      "message": "should pass \\"mustPositive\\" keyword validation",
+      "params": Object {
+        "keyword": "mustPositive",
+      },
+      "schemaPath": "#/properties/body/properties/body/mustPositive",
+    },
   ],
   "details": Array [
     Object {
       "info": "data.body should be number",
+      "parentSchemaId": undefined,
+      "path": "data.body",
+    },
+    Object {
+      "info": "data.body should pass \\"mustPositive\\" keyword validation",
       "parentSchemaId": undefined,
       "path": "data.body",
     },

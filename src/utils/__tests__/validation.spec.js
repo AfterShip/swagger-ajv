@@ -46,7 +46,8 @@ describe('validation', () => {
 								'type': 'object',
 								'properties': {
 									'body': {
-										'type': 'number'
+										'type': 'number',
+										'mustPositive': true
 									}
 								},
 								'required': [
@@ -60,7 +61,18 @@ describe('validation', () => {
 		}
 	};
 
-	const validate = validation({components, paths});
+	const validate = validation({
+		components,
+		paths,
+		ajvKeywords: [{
+			name: 'mustPositive',
+			def: {
+				validate: (schema, data) => {
+					return schema ? data > 0 : true;
+				}
+			}
+		}]
+	});
 
 	test('valid get request', () => {
 		expect(

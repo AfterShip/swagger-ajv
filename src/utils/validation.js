@@ -10,12 +10,16 @@ const {combineRequestSchemas} = require('./combine_request_schemas');
  * uses ajv to validate request parameters against schema determined by request route and request method
  * $ref will resolve only `#/components/schemas/...` same as openapi schema
  */
-module.exports = ({components, paths, ajvOptions}) => {
+module.exports = ({components, paths, ajvOptions, ajvKeywords = []}) => {
 	const ajv = new Ajv({
 		allErrors: true,
 		removeAdditional: false,
 		...ajvOptions
 	});
+
+	for (const ajvKeyword of ajvKeywords) {
+		ajv.addKeyword(ajvKeyword.name, ajvKeyword.def);
+	}
 
 	ajv.addSchema({
 		$id: '_',
