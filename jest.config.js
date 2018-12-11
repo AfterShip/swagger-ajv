@@ -5,22 +5,22 @@ module.exports = {
 		'src',
 	moduleFileExtensions: [
 		'js',
-		'json'
+		'json',
 	],
 	testEnvironment:
 		'node',
 	moduleDirectories: [
 		'node_modules',
-		'<rootDir>'
+		'<rootDir>',
 	],
 	collectCoverage: true,
 	collectCoverageFrom: [
-		'**/*.js'
+		'**/*.js',
 	],
 	coverageDirectory:
 		'<rootDir>/../coverage',
 	coverageReporters: [
-		'text-summary'
+		'text-summary',
 	],
-	coverageThreshold: {}
+	coverageThreshold: {},
 };

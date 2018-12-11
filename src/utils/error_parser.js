@@ -7,7 +7,7 @@ exports.parse = errors => {
 		const [,, ...dataPath] = error.dataPath
 			.replace(
 				/\[\d+\]/g,
-				x => x.replace(/\[/, '.').replace(/\]/, '')
+				x => x.replace(/\[/, '.').replace(/\]/, ''),
 			)
 			.split('.');
 
@@ -18,28 +18,28 @@ exports.parse = errors => {
 			message,
 			params,
 			parentSchema = {},
-			schema = {}
+			schema = {},
 		} = error;
 
 		const result = {
 			parentSchemaId: parentSchema.$id,
 			ajv: {
-				...error
-			}
+				...error,
+			},
 		};
 
 		if (parentSchema.errorMessage) {
 			return {
 				path,
 				info: parentSchema.errorMessage,
-				...result
+				...result,
 			};
 		}
 
 		if (keyword === 'additionalProperties') {
 			return {
 				info: `${path} ${message} ['${params.additionalProperty}']`,
-				...result
+				...result,
 			};
 		}
 
@@ -47,7 +47,7 @@ exports.parse = errors => {
 			return {
 				path,
 				info: `${path} should be equal to one of values ${JSON.stringify(params.allowedValues)}`,
-				...result
+				...result,
 			};
 		}
 
@@ -56,7 +56,7 @@ exports.parse = errors => {
 				path,
 				info: `${path} ${message}`,
 				schema: map(schema, '$ref'),
-				...result
+				...result,
 			};
 		}
 
@@ -65,7 +65,7 @@ exports.parse = errors => {
 			return {
 				path: requiredPath,
 				info: `${requiredPath} is a required property`,
-				...result
+				...result,
 			};
 		}
 
@@ -73,7 +73,7 @@ exports.parse = errors => {
 			return {
 				path,
 				info: `${path} should match format ${params.format}`,
-				...result
+				...result,
 			};
 		}
 
@@ -84,7 +84,7 @@ exports.parse = errors => {
 		return {
 			path,
 			info: `${path} ${message}`,
-			...result
+			...result,
 		};
 	});
 
