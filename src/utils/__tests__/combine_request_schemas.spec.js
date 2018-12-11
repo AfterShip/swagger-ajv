@@ -3,7 +3,7 @@
 const {
 	getBodySchema,
 	getParametersSchema,
-	combineRequestSchemas
+	combineRequestSchemas,
 } = require('../combine_request_schemas');
 
 describe('getBodySchema', () => {
@@ -13,11 +13,11 @@ describe('getBodySchema', () => {
 				content: {
 					'application/json': {
 						schema: {
-							$ref: '#/components/schemas/SuccessfulResponse'
-						}
-					}
-				}
-			}
+							$ref: '#/components/schemas/SuccessfulResponse',
+						},
+					},
+				},
+			},
 		};
 		expect(getBodySchema(data)).toMatchSnapshot();
 	});
@@ -36,17 +36,17 @@ describe('getParametersSchema', () => {
 					name: 'a',
 					required: true,
 					schema: {
-						$ref: '#/components/parameters/a'
-					}
+						$ref: '#/components/parameters/a',
+					},
 				}, {
 					in: 'path',
 					name: 'b',
 					required: false,
 					schema: {
-						$ref: '#/components/parameters/b'
-					}
-				}
-			]
+						$ref: '#/components/parameters/b',
+					},
+				},
+			],
 		};
 		expect(getParametersSchema(data, 'query')).toMatchSnapshot();
 	});
@@ -63,17 +63,17 @@ describe('getParametersSchema', () => {
 					name: 'a',
 					required: true,
 					schema: {
-						type: 'string'
-					}
+						type: 'string',
+					},
 				}, {
 					in: 'path',
 					name: 'b',
 					required: false,
 					schema: {
-						type: 'string'
-					}
-				}
-			]
+						type: 'string',
+					},
+				},
+			],
 		};
 		expect(getParametersSchema(data, 'header')).toEqual({});
 	});
@@ -88,26 +88,26 @@ describe('combineRequestSchemas', () => {
 					name: 'a',
 					required: true,
 					schema: {
-						$ref: '#/components/parameters/a'
-					}
+						$ref: '#/components/parameters/a',
+					},
 				}, {
 					in: 'path',
 					name: 'b',
 					required: false,
 					schema: {
-						$ref: '#/components/parameters/b'
-					}
-				}
+						$ref: '#/components/parameters/b',
+					},
+				},
 			],
 			requestBody: {
 				content: {
 					'application/json': {
 						schema: {
-							$ref: '#/components/schemas/SuccessfulResponse'
-						}
-					}
-				}
-			}
+							$ref: '#/components/schemas/SuccessfulResponse',
+						},
+					},
+				},
+			},
 		};
 		const toValidateKeys = ['query', 'path', 'body'];
 		expect(combineRequestSchemas(data, toValidateKeys)).toMatchSnapshot();

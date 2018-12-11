@@ -99,15 +99,15 @@ exports.getParametersSchema = (data, key) => {
 	const parametersProperties = values(parameters).reduce(
 		(acc, {name, schema}) => ({
 			[name]: prefixStringValue(schema, '$ref', '_'),
-			...acc
+			...acc,
 		}),
-		{}
+		{},
 	);
 
 	return {
 		type: 'object',
 		required: parametersRequired,
-		properties: parametersProperties
+		properties: parametersProperties,
 	};
 };
 const {getParametersSchema} = exports;
@@ -118,13 +118,13 @@ exports.combineRequestSchemas = (data, toValidateKeys) => {
 			...schemaAcc,
 			[key]: key === 'body'
 				? getBodySchema(data)
-				: getParametersSchema(data, key)
+				: getParametersSchema(data, key),
 		}),
-		{}
+		{},
 	);
 
 	return {
 		type: 'object',
-		properties
+		properties,
 	};
 };

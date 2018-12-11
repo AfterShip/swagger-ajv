@@ -8,9 +8,9 @@ const toJson = error => (
 		.reduce(
 			(acc, k) => ({
 				...acc,
-				[k]: error[k]
+				[k]: error[k],
 			}),
-			{}
+			{},
 		)
 );
 
@@ -18,9 +18,9 @@ describe('validation', () => {
 	const components = {
 		'schemas': {
 			'Data': {
-				'type': 'object'
-			}
-		}
+				'type': 'object',
+			},
+		},
 	};
 
 	const paths = {
@@ -33,10 +33,10 @@ describe('validation', () => {
 					'schema': {
 						'type': 'string',
 						'enum': ['query'],
-						'errorMessage': 'This is a custom error message'
-					}
-				}]
-			}
+						'errorMessage': 'This is a custom error message',
+					},
+				}],
+			},
 		},
 		'/post': {
 			'post': {
@@ -48,18 +48,18 @@ describe('validation', () => {
 								'properties': {
 									'body': {
 										'type': 'number',
-										'mustPositive': true
-									}
+										'mustPositive': true,
+									},
 								},
 								'required': [
-									'body'
-								]
-							}
-						}
-					}
-				}
-			}
-		}
+									'body',
+								],
+							},
+						},
+					},
+				},
+			},
+		},
 	};
 
 	const validate = validation({
@@ -70,9 +70,9 @@ describe('validation', () => {
 			def: {
 				validate: (schema, data) => {
 					return schema ? data > 0 : true;
-				}
-			}
-		}]
+				},
+			},
+		}],
 	});
 
 	test('valid get request', () => {
@@ -83,10 +83,10 @@ describe('validation', () => {
 				method: 'get',
 				params: {},
 				query: {
-					query: 'query'
+					query: 'query',
 				},
-				route: '/get'
-			})
+				route: '/get',
+			}),
 		).toEqual(undefined);
 	});
 
@@ -98,9 +98,9 @@ describe('validation', () => {
 				method: 'get',
 				params: {},
 				query: {
-					query: 'body'
+					query: 'body',
 				},
-				route: '/get'
+				route: '/get',
 			});
 			expect(true).toEqual(false);
 		} catch (error) {
@@ -113,14 +113,14 @@ describe('validation', () => {
 		expect(
 			validate({
 				body: {
-					body: 1
+					body: 1,
 				},
 				headers: {},
 				method: 'post',
 				params: {},
 				query: {},
-				route: '/post'
-			})
+				route: '/post',
+			}),
 		).toEqual(undefined);
 	});
 
@@ -129,14 +129,14 @@ describe('validation', () => {
 			validate({
 				body: {
 					body: {
-						body: 'body'
-					}
+						body: 'body',
+					},
 				},
 				headers: {},
 				method: 'post',
 				params: {},
 				query: {},
-				route: '/post'
+				route: '/post',
 			});
 			expect(true).toEqual(false);
 		} catch (error) {

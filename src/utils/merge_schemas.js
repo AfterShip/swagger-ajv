@@ -48,7 +48,7 @@ function loadSchema(file) {
 }
 
 module.exports = function mergeSchemas(schemasDir, {
-	useDirStructure = false
+	useDirStructure = false,
 } = {}) {
 	const absoluteSchemasPath = path.resolve(schemasDir);
 
@@ -58,14 +58,14 @@ module.exports = function mergeSchemas(schemasDir, {
 				acc,
 				useDirStructure
 					? set({}, parseDirStructure(absoluteSchemasPath, file), loadSchema(file))
-					: loadSchema(file)
+					: loadSchema(file),
 			),
-			{}
+			{},
 		);
 
 	return {
 		ajv: schemas,
-		swagger: formatSwagger(schemas)
+		swagger: formatSwagger(schemas),
 	};
 };
 

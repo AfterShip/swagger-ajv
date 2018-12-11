@@ -10,17 +10,20 @@ const {combineRequestSchemas} = require('./combine_request_schemas');
  * uses ajv to validate request parameters against schema determined by request route and request method
  * $ref will resolve only `#/components/schemas/...` same as openapi schema
  */
-module.exports = ({components, paths, ajvOptions = {}, ajvKeywords = [], ajvErrorsOptions = {}}) => {
+module.exports = ({
+	components, paths, ajvOptions = {}, ajvKeywords = [], ajvErrorsOptions = {},
+}) => {
 	const ajv = new Ajv({
 		allErrors: true,
 		removeAdditional: false,
-		...ajvOptions
+		...ajvOptions,
 	});
 
 	require('ajv-errors')(ajv, ajvErrorsOptions);
 	// jsonPointers was set to true when require ajv-errors package,
 	// but if true, details.path in error message will not be complete
 	// to handle this, set it to ajvOptions value or false when require have been done
+	/* eslint no-underscore-dangle: ["error", { "allow": ["_opts"] }] */
 	ajv._opts.jsonPointers = ajvOptions.jsonPointers || false;
 
 	for (const ajvKeyword of ajvKeywords) {
@@ -29,12 +32,14 @@ module.exports = ({components, paths, ajvOptions = {}, ajvKeywords = [], ajvErro
 
 	ajv.addSchema({
 		$id: '_',
-		components
+		components,
 	});
 
 	const combinedSchemas = {};
 
-	return ({body, headers, method, params, query, route}) => {
+	return ({
+		body, headers, method, params, query, route,
+	}) => {
 		const path = route.replace(/:[^/]*/, match => `{${match.slice(1)}}`);
 		const data = paths[path][method];
 
@@ -48,7 +53,7 @@ module.exports = ({components, paths, ajvOptions = {}, ajvKeywords = [], ajvErro
 					header: headers,
 					path: params,
 					body,
-					query
+					query,
 				};
 				break;
 			case 'get':
@@ -56,7 +61,7 @@ module.exports = ({components, paths, ajvOptions = {}, ajvKeywords = [], ajvErro
 				toValidate = {
 					header: headers,
 					query,
-					path: params
+					path: params,
 				};
 				break;
 			default:
@@ -72,7 +77,7 @@ module.exports = ({components, paths, ajvOptions = {}, ajvKeywords = [], ajvErro
 
 			combinedSchemas[path] = {
 				...combinedSchema[path],
-				[method]: combinedSchema
+				[method]: combinedSchema,
 			};
 		}
 

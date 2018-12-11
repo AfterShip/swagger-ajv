@@ -2,21 +2,25 @@
 
 const validation = require('../../utils/validation');
 
-module.exports = ({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions}) => {
-	const validate = validation({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions});
+module.exports = ({
+	components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions,
+}) => {
+	const validate = validation({
+		components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions,
+	});
 
 	return (ctx, next) => {
 		const {
 			_matchedRoute: route,
 			matched,
 			method,
-			path
+			path,
 		} = ctx;
 
 		const {
 			body,
 			headers,
-			query
+			query,
 		} = ctx.request;
 
 		// koa router params might not be available to the middleware
@@ -32,11 +36,11 @@ module.exports = ({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions}
 				method: method.toLowerCase(),
 				params,
 				query,
-				route
+				route,
 			});
 		} catch (error) {
 			ctx.throw(400, error.message, {
-				details: error.details
+				details: error.details,
 			});
 		}
 

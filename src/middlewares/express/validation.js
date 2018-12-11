@@ -2,8 +2,12 @@
 
 const validation = require('../../utils/validation');
 
-module.exports = ({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions}) => {
-	const validate = validation({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions});
+module.exports = ({
+	components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions,
+}) => {
+	const validate = validation({
+		components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions,
+	});
 
 	return (req, _res, next) => {
 		try {
@@ -13,7 +17,7 @@ module.exports = ({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions}
 				method,
 				params,
 				route,
-				query
+				query,
 			} = req;
 
 			validate({
@@ -22,7 +26,7 @@ module.exports = ({components, paths, ajvOptions, ajvKeywords, ajvErrorsOptions}
 				method: method.toLowerCase(),
 				params,
 				query,
-				route: route.path
+				route: route.path,
 			});
 			next();
 		} catch (err) {
