@@ -39,7 +39,7 @@ module.exports = ({
 				route,
 			});
 		} catch (error) {
-			ctx.throw(400, error.message, {
+			ctx.throw(422, error.message, {
 				details: error.details,
 			});
 		}

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validation should throw error 1`] = `
+Array [
+  Array [
+    422,
+    "Schema validation error",
+    Object {
+      "details": Array [
+        Object {
+          "info": "a.b should be required",
+          "path": "a.b",
+        },
+      ],
+    },
+  ],
+]
+`;
