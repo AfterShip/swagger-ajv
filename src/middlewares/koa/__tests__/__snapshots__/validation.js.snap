@@ -12,6 +12,7 @@ Array [
           "path": "a.b",
         },
       ],
+      "isSwaggerAjvValidationError": true,
     },
   ],
 ]

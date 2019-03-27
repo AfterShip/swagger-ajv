@@ -41,6 +41,7 @@ module.exports = ({
 		} catch (error) {
 			ctx.throw(422, error.message, {
 				details: error.details,
+				isSwaggerAjvValidationError: true,
 			});
 		}
 
