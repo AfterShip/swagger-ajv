@@ -22,7 +22,7 @@
 		"lint": "eslint --ext .js .",
 		"jest": "NODE_ENV=test jest --coverageReporters=json lcov text-summary",
 		"jest:dev": "NODE_ENV=test jest --coverageReporters=text-summary --watch --notify",
-		"test": "npm run lint && npm run jest",
+		"test": "yarn lint && yarn jest",
 		"build": "BABEL_ENV=es5 babel src -d dist --ignore=**/__tests__/** --copy-files",
 		"prepush": "npm test",
 		"prepublishOnly": "yarn install && yarn build"
@@ -43,6 +43,11 @@
 		"eslint-config-aftership": "^5.0.0",
 		"husky": "^2.3.0",
 		"jest": "^24.8.0"
-	},
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn test & yarn audit"
+    }
+  },
 	"license": "MIT"
 }
