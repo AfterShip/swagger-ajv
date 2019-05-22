@@ -43,11 +43,11 @@
 		"eslint-config-aftership": "^5.0.0",
 		"husky": "^2.3.0",
 		"jest": "^24.8.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn test & yarn audit"
-    }
-  },
+	},
+	"husky": {
+		"hooks": {
+			"pre-push": "yarn test & yarn audit"
+		}
+	},
 	"license": "MIT"
 }
