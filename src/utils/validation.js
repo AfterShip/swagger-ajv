@@ -40,7 +40,7 @@ module.exports = ({
 	return ({
 		body, headers, method, params, query, route,
 	}) => {
-		const path = route.replace(/:[^/]*/, match => `{${match.slice(1)}}`);
+		const path = route.replace(/:[^/]*/g, match => `{${match.slice(1)}}`);
 		const data = paths[path][method];
 
 		let toValidate = {};
