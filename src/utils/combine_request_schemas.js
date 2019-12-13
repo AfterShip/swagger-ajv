@@ -72,6 +72,8 @@ const getDeep = (data, path) => {
 		if (result) return result;
 	}
 
+	// See https://github.com/eslint/eslint/issues/12117
+	// eslint-disable-next-line
 	for (const value of values(data)) {
 		const result = getDeep(value, path);
 		if (result) return result;
