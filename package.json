@@ -16,7 +16,7 @@
 	},
 	"main": "dist/index.js",
 	"engines": {
-		"node": ">= 4"
+		"node": ">= 10"
 	},
 	"scripts": {
 		"lint": "eslint --ext .js .",
