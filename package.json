@@ -1,7 +1,7 @@
 {
 	"name": "swagger-ajv",
 	"description": "middleware for validation and documentation",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"homepage": "https://github.com/AfterShip/swagger-ajv",
 	"author": {
 		"name": "tushar",
