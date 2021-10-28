@@ -1,9 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validation invalid get request 1`] = `"Cannot read property 'replace' of undefined"`;
+exports[`validation invalid get request 1`] = `"Schema validation error"`;
 
-exports[`validation invalid get request 2`] = `Object {}`;
+exports[`validation invalid get request 2`] = `
+Object {
+  "ajv": Array [
+    Object {
+      "instancePath": "/query/query",
+      "keyword": "errorMessage",
+      "message": "This is a custom error message",
+      "params": Object {
+        "errors": Array [
+          Object {
+            "emUsed": true,
+            "instancePath": "/query/query",
+            "keyword": "enum",
+            "message": "must be equal to one of the allowed values",
+            "params": Object {
+              "allowedValues": Array [
+                "query",
+              ],
+            },
+            "schemaPath": "#/properties/query/properties/query/enum",
+          },
+        ],
+      },
+      "schemaPath": "#/properties/query/properties/query/errorMessage",
+    },
+  ],
+  "details": Array [
+    Object {
+      "info": "data This is a custom error message",
+      "parentSchemaId": undefined,
+      "path": "data",
+    },
+  ],
+}
+`;
 
-exports[`validation invalid post request 1`] = `"Cannot read property 'replace' of undefined"`;
+exports[`validation invalid post request 1`] = `"Schema validation error"`;
 
-exports[`validation invalid post request 2`] = `Object {}`;
+exports[`validation invalid post request 2`] = `
+Object {
+  "ajv": Array [
+    Object {
+      "instancePath": "/body/body",
+      "keyword": "type",
+      "message": "must be number",
+      "params": Object {
+        "type": "number",
+      },
+      "schemaPath": "#/properties/body/properties/body/type",
+    },
+    Object {
+      "instancePath": "/body/body",
+      "keyword": "mustPositive",
+      "message": "must pass \\"mustPositive\\" keyword validation",
+      "params": Object {},
+      "schemaPath": "#/properties/body/properties/body/mustPositive",
+    },
+  ],
+  "details": Array [
+    Object {
+      "info": "data must be number",
+      "parentSchemaId": undefined,
+      "path": "data",
+    },
+    Object {
+      "info": "data must pass \\"mustPositive\\" keyword validation",
+      "parentSchemaId": undefined,
+      "path": "data",
+    },
+  ],
+}
+`;
