@@ -24,7 +24,7 @@ module.exports = ({
 	// but if true, details.path in error message will not be complete
 	// to handle this, set it to ajvOptions value or false when require have been done
 	/* eslint no-underscore-dangle: ["error", { "allow": ["_opts"] }] */
-	ajv._opts.jsonPointers = ajvOptions.jsonPointers || false;
+	ajv.opts.jsonPointers = ajvOptions.jsonPointers || false;
 
 	// See https://github.com/eslint/eslint/issues/12117
 	// eslint-disable-next-line

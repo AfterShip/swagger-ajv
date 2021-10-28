@@ -1,77 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validation invalid get request 1`] = `"Schema validation error"`;
+exports[`validation invalid get request 1`] = `"Cannot read property 'replace' of undefined"`;
 
-exports[`validation invalid get request 2`] = `
-Object {
-  "ajv": Array [
-    Object {
-      "dataPath": ".query.query",
-      "keyword": "errorMessage",
-      "message": "This is a custom error message",
-      "params": Object {
-        "errors": Array [
-          Object {
-            "dataPath": ".query.query",
-            "keyword": "enum",
-            "message": "should be equal to one of the allowed values",
-            "params": Object {
-              "allowedValues": Array [
-                "query",
-              ],
-            },
-            "schemaPath": "#/properties/query/properties/query/enum",
-          },
-        ],
-      },
-      "schemaPath": "#/properties/query/properties/query/errorMessage",
-    },
-  ],
-  "details": Array [
-    Object {
-      "info": "data.query This is a custom error message",
-      "parentSchemaId": undefined,
-      "path": "data.query",
-    },
-  ],
-}
-`;
+exports[`validation invalid get request 2`] = `Object {}`;
 
-exports[`validation invalid post request 1`] = `"Schema validation error"`;
+exports[`validation invalid post request 1`] = `"Cannot read property 'replace' of undefined"`;
 
-exports[`validation invalid post request 2`] = `
-Object {
-  "ajv": Array [
-    Object {
-      "dataPath": ".body.body",
-      "keyword": "type",
-      "message": "should be number",
-      "params": Object {
-        "type": "number",
-      },
-      "schemaPath": "#/properties/body/properties/body/type",
-    },
-    Object {
-      "dataPath": ".body.body",
-      "keyword": "mustPositive",
-      "message": "should pass \\"mustPositive\\" keyword validation",
-      "params": Object {
-        "keyword": "mustPositive",
-      },
-      "schemaPath": "#/properties/body/properties/body/mustPositive",
-    },
-  ],
-  "details": Array [
-    Object {
-      "info": "data.body should be number",
-      "parentSchemaId": undefined,
-      "path": "data.body",
-    },
-    Object {
-      "info": "data.body should pass \\"mustPositive\\" keyword validation",
-      "parentSchemaId": undefined,
-      "path": "data.body",
-    },
-  ],
-}
-`;
+exports[`validation invalid post request 2`] = `Object {}`;
