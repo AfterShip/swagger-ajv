@@ -28,11 +28,11 @@
 		"prepublishOnly": "yarn install && yarn build"
 	},
 	"dependencies": {
-		"ajv": "~6.3.0",
+		"ajv": "~8.6.0",
 		"ajv-errors": "^1.0.1",
 		"js-yaml": "^3.13.1",
-		"lodash": "^4.17.11",
-		"pug": "^2.0.3"
+		"lodash": "^4.17.21",
+		"pug": "^2.0.4"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.7.5",
