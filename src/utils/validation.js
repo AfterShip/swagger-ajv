@@ -5,6 +5,7 @@ const {omit} = require('lodash');
 
 const errorParser = require('./error_parser');
 const {combineRequestSchemas} = require('./combine_request_schemas');
+const {_} = require('lodash');
 
 /**
  * uses ajv to validate request parameters against schema determined by request route and request method
@@ -23,13 +24,18 @@ module.exports = ({
 	// jsonPointers was set to true when require ajv-errors package,
 	// but if true, details.path in error message will not be complete
 	// to handle this, set it to ajvOptions value or false when require have been done
-	/* eslint no-underscore-dangle: ["error", { "allow": ["_opts"] }] */
 	ajv.opts.jsonPointers = ajvOptions.jsonPointers || false;
 
 	// See https://github.com/eslint/eslint/issues/12117
 	// eslint-disable-next-line
 	for (const ajvKeyword of ajvKeywords) {
-		ajv.addKeyword(ajvKeyword.name, ajvKeyword.def);
+		if (!ajvKeyword.def) {
+			continue;
+		}
+		if (!_.has(ajvKeyword.def, 'keyword')) {
+			ajvKeyword.def.keyword = ajvKeyword.name;
+		}
+		ajv.addKeyword(ajvKeyword.def);
 	}
 
 	ajv.addSchema({
@@ -39,9 +45,9 @@ module.exports = ({
 
 	const combinedSchemas = {};
 
-	return ({
+	return function validation({
 		body, headers, method, params, query, route,
-	}) => {
+	}) {
 		const path = route.replace(/:[^/]*/g, match => `{${match.slice(1)}}`);
 		const data = paths[path][method];
 

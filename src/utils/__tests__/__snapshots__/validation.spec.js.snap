@@ -74,3 +74,26 @@ Object {
   ],
 }
 `;
+
+exports[`validation invalid post request body <= 0 1`] = `"Schema validation error"`;
+
+exports[`validation invalid post request body <= 0 2`] = `
+Object {
+  "ajv": Array [
+    Object {
+      "instancePath": "/body/body",
+      "keyword": "mustPositive",
+      "message": "must pass \\"mustPositive\\" keyword validation",
+      "params": Object {},
+      "schemaPath": "#/properties/body/properties/body/mustPositive",
+    },
+  ],
+  "details": Array [
+    Object {
+      "info": "data must pass \\"mustPositive\\" keyword validation",
+      "parentSchemaId": undefined,
+      "path": "data",
+    },
+  ],
+}
+`;

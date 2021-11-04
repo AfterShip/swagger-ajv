@@ -144,4 +144,23 @@ describe('validation', () => {
 			expect(toJson(error)).toMatchSnapshot();
 		}
 	});
+
+	test('invalid post request body <= 0', () => {
+		try {
+			validate({
+				body: {
+					body: -2,
+				},
+				headers: {},
+				method: 'post',
+				params: {},
+				query: {},
+				route: '/post',
+			});
+			expect(true).toEqual(false);
+		} catch (error) {
+			expect(error.message).toMatchSnapshot();
+			expect(toJson(error)).toMatchSnapshot();
+		}
+	});
 });
