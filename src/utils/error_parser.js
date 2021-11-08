@@ -4,12 +4,7 @@ const {map, compact} = require('lodash');
 
 exports.parse = errors => {
 	const results = errors.map(error => {
-		const [,, ...instancePath] = error.instancePath
-			.replace(
-				/\[\d+\]/g,
-				x => x.replace(/\[/, '.').replace(/\]/, ''),
-			)
-			.split('.');
+		const [,, ...instancePath] = error.instancePath.split('/');
 
 		const path = ['data', ...instancePath].join('.');
 
