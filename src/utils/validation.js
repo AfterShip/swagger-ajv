@@ -5,7 +5,6 @@ const {omit} = require('lodash');
 
 const errorParser = require('./error_parser');
 const {combineRequestSchemas} = require('./combine_request_schemas');
-const {_} = require('lodash');
 
 /**
  * uses ajv to validate request parameters against schema determined by request route and request method
@@ -24,7 +23,9 @@ module.exports = ({
 	// jsonPointers was set to true when require ajv-errors package,
 	// but if true, details.path in error message will not be complete
 	// to handle this, set it to ajvOptions value or false when require have been done
-	ajv.opts.jsonPointers = ajvOptions.jsonPointers || false;
+	// ajv.opts.jsonPointers = ajvOptions.jsonPointers || false;
+	// jsonPointers is deprecated, this will be compatible with old setting
+	ajv.opts.jsPropertySyntax = ajvOptions.jsonPointers || ajvOptions.jsPropertySyntax || false;
 
 	// See https://github.com/eslint/eslint/issues/12117
 	// eslint-disable-next-line
@@ -32,10 +33,12 @@ module.exports = ({
 		if (!ajvKeyword.def) {
 			continue;
 		}
-		if (!_.has(ajvKeyword.def, 'keyword')) {
-			ajvKeyword.def.keyword = ajvKeyword.name;
-		}
-		ajv.addKeyword(ajvKeyword.def);
+		const keyword = ajvKeyword.def.keyword || ajvKeyword.name;
+		const keywordDef = {
+			...ajvKeyword.def,
+			keyword,
+		};
+		ajv.addKeyword(keywordDef);
 	}
 
 	ajv.addSchema({
