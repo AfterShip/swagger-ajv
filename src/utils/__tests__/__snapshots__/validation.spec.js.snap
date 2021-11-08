@@ -30,9 +30,9 @@ Object {
   ],
   "details": Array [
     Object {
-      "info": "data This is a custom error message",
+      "info": "data.query This is a custom error message",
       "parentSchemaId": undefined,
-      "path": "data",
+      "path": "data.query",
     },
   ],
 }
@@ -62,14 +62,14 @@ Object {
   ],
   "details": Array [
     Object {
-      "info": "data must be number",
+      "info": "data.body must be number",
       "parentSchemaId": undefined,
-      "path": "data",
+      "path": "data.body",
     },
     Object {
-      "info": "data must pass \\"mustPositive\\" keyword validation",
+      "info": "data.body must pass \\"mustPositive\\" keyword validation",
       "parentSchemaId": undefined,
-      "path": "data",
+      "path": "data.body",
     },
   ],
 }
@@ -90,9 +90,9 @@ Object {
   ],
   "details": Array [
     Object {
-      "info": "data must pass \\"mustPositive\\" keyword validation",
+      "info": "data.body must pass \\"mustPositive\\" keyword validation",
       "parentSchemaId": undefined,
-      "path": "data",
+      "path": "data.body",
     },
   ],
 }
