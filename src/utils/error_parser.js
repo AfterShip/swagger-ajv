@@ -4,14 +4,16 @@ const {map, compact} = require('lodash');
 
 exports.parse = errors => {
 	const results = errors.map(error => {
-		const [,, ...dataPath] = error.dataPath
-			.replace(
-				/\[\d+\]/g,
-				x => x.replace(/\[/, '.').replace(/\]/, ''),
-			)
-			.split('.');
+		const path = ['data', ...error.instancePath.split('/').slice(2)].join('.');
 
-		const path = ['data', ...dataPath].join('.');
+		// const [,, ...dataPath] = error.dataPath
+		// 	.replace(
+		// 		/\[\d+\]/g,
+		// 		x => x.replace(/\[/, '.').replace(/\]/, ''),
+		// 	)
+		// 	.split('.');
+
+		// const path = ['data', ...dataPath].join('.');
 
 		const {
 			keyword,

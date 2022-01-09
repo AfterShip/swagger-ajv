@@ -6,15 +6,16 @@ exports[`validation invalid get request 2`] = `
 Object {
   "ajv": Array [
     Object {
-      "dataPath": ".query.query",
+      "instancePath": "/query/query",
       "keyword": "errorMessage",
       "message": "This is a custom error message",
       "params": Object {
         "errors": Array [
           Object {
-            "dataPath": ".query.query",
+            "emUsed": true,
+            "instancePath": "/query/query",
             "keyword": "enum",
-            "message": "should be equal to one of the allowed values",
+            "message": "must be equal to one of the allowed values",
             "params": Object {
               "allowedValues": Array [
                 "query",
@@ -43,32 +44,30 @@ exports[`validation invalid post request 2`] = `
 Object {
   "ajv": Array [
     Object {
-      "dataPath": ".body.body",
+      "instancePath": "/body/body",
       "keyword": "type",
-      "message": "should be number",
+      "message": "must be number",
       "params": Object {
         "type": "number",
       },
       "schemaPath": "#/properties/body/properties/body/type",
     },
     Object {
-      "dataPath": ".body.body",
+      "instancePath": "/body/body",
       "keyword": "mustPositive",
-      "message": "should pass \\"mustPositive\\" keyword validation",
-      "params": Object {
-        "keyword": "mustPositive",
-      },
+      "message": "must pass \\"mustPositive\\" keyword validation",
+      "params": Object {},
       "schemaPath": "#/properties/body/properties/body/mustPositive",
     },
   ],
   "details": Array [
     Object {
-      "info": "data.body should be number",
+      "info": "data.body must be number",
       "parentSchemaId": undefined,
       "path": "data.body",
     },
     Object {
-      "info": "data.body should pass \\"mustPositive\\" keyword validation",
+      "info": "data.body must pass \\"mustPositive\\" keyword validation",
       "parentSchemaId": undefined,
       "path": "data.body",
     },
