@@ -16,6 +16,7 @@ module.exports = ({
 	const ajv = new Ajv({
 		allErrors: true,
 		removeAdditional: false,
+		strictSchema: ajvOptions.strictSchema || false,
 		...ajvOptions,
 	});
 
