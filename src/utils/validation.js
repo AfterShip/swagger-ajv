@@ -41,8 +41,6 @@ module.exports = ({
 		components,
 	});
 
-	const combinedSchemas = {};
-
 	return ({
 		body, headers, method, params, query, route,
 	}) => {
@@ -74,25 +72,20 @@ module.exports = ({
 				throw new Error('Method not allowed');
 		}
 
-		let combinedSchema;
-
-		if (combinedSchemas[path] && combinedSchemas[path][method]) {
-			combinedSchema = combinedSchemas[path][method];
-		} else {
-			combinedSchema = combineRequestSchemas(data, Object.keys(toValidate));
-
-			combinedSchemas[path] = {
-				...combinedSchema[path],
-				[method]: combinedSchema,
-			};
+		const keyRef = `${method}-${path}`;
+		let validate = ajv.getSchema(keyRef);
+		if (!validate) {
+			const combinedSchema = combineRequestSchemas(data, Object.keys(toValidate));
+			ajv.addSchema(combinedSchema, keyRef);
+			validate = ajv.getSchema(keyRef);
 		}
 
-		const isValid = ajv.validate(combinedSchema, toValidate);
+		const isValid = validate(toValidate);
 		if (!isValid) {
 			const error = new Error('Schema validation error');
 
-			if (ajv.errors) {
-				const errors = errorParser.parse(ajv.errors);
+			if (validate.errors) {
+				const errors = errorParser.parse(validate.errors);
 				error.details = errors.map(e => omit(e, ['ajv']));
 				error.ajv = errors.map(e => e.ajv);
 			}
