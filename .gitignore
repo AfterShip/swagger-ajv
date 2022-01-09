@@ -168,3 +168,5 @@ dwsync.xml
 
 *.komodoproject
 .komodotools
+
+.vscode
