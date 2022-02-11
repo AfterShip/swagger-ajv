@@ -28,7 +28,7 @@
 		"prepublishOnly": "yarn install && yarn build"
 	},
 	"dependencies": {
-		"ajv": "~6.3.0",
+		"ajv": "~6.12.3",
 		"ajv-errors": "^1.0.1",
 		"js-yaml": "^3.13.1",
 		"lodash": "^4.17.11",
