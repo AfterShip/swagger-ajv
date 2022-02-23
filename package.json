@@ -42,7 +42,7 @@
 		"eslint": "^6.7.2",
 		"eslint-config-aftership": "^5.0.0",
 		"husky": "^2.3.0",
-		"jest": "^27.4.7"
+		"jest": "^27.5.1"
 	},
 	"husky": {
 		"hooks": {
