@@ -28,11 +28,11 @@
 		"prepublishOnly": "yarn install && yarn build"
 	},
 	"dependencies": {
-		"ajv": "~6.3.0",
-		"ajv-errors": "^1.0.1",
+		"ajv": "^8.8.2",
+		"ajv-errors": "^3.0.0",
 		"js-yaml": "^3.13.1",
-		"lodash": "^4.17.11",
-		"pug": "^2.0.3"
+		"lodash": "^4.17.21",
+		"pug": "^3.0.2"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.7.5",
@@ -42,7 +42,7 @@
 		"eslint": "^6.7.2",
 		"eslint-config-aftership": "^5.0.0",
 		"husky": "^2.3.0",
-		"jest": "^24.9.0"
+		"jest": "^27.4.7"
 	},
 	"husky": {
 		"hooks": {

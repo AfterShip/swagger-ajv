@@ -16,6 +16,7 @@ module.exports = ({
 	const ajv = new Ajv({
 		allErrors: true,
 		removeAdditional: false,
+		strictSchema: ajvOptions.strictSchema || false,
 		...ajvOptions,
 	});
 
@@ -24,20 +25,21 @@ module.exports = ({
 	// but if true, details.path in error message will not be complete
 	// to handle this, set it to ajvOptions value or false when require have been done
 	/* eslint no-underscore-dangle: ["error", { "allow": ["_opts"] }] */
-	ajv._opts.jsonPointers = ajvOptions.jsonPointers || false;
+	// ajv._opts.jsonPointers = ajvOptions.jsonPointers || false;
 
 	// See https://github.com/eslint/eslint/issues/12117
 	// eslint-disable-next-line
 	for (const ajvKeyword of ajvKeywords) {
-		ajv.addKeyword(ajvKeyword.name, ajvKeyword.def);
+		ajv.addKeyword({
+			keyword: ajvKeyword.name,
+			...ajvKeyword.def,
+		});
 	}
 
 	ajv.addSchema({
 		$id: '_',
 		components,
 	});
-
-	const combinedSchemas = {};
 
 	return ({
 		body, headers, method, params, query, route,
@@ -70,25 +72,20 @@ module.exports = ({
 				throw new Error('Method not allowed');
 		}
 
-		let combinedSchema;
-
-		if (combinedSchemas[path] && combinedSchemas[path][method]) {
-			combinedSchema = combinedSchemas[path][method];
-		} else {
-			combinedSchema = combineRequestSchemas(data, Object.keys(toValidate));
-
-			combinedSchemas[path] = {
-				...combinedSchema[path],
-				[method]: combinedSchema,
-			};
+		const keyRef = `${method}-${path}`;
+		let validate = ajv.getSchema(keyRef);
+		if (!validate) {
+			const combinedSchema = combineRequestSchemas(data, Object.keys(toValidate));
+			ajv.addSchema(combinedSchema, keyRef);
+			validate = ajv.getSchema(keyRef);
 		}
 
-		const isValid = ajv.validate(combinedSchema, toValidate);
+		const isValid = validate(toValidate);
 		if (!isValid) {
 			const error = new Error('Schema validation error');
 
-			if (ajv.errors) {
-				const errors = errorParser.parse(ajv.errors);
+			if (validate.errors) {
+				const errors = errorParser.parse(validate.errors);
 				error.details = errors.map(e => omit(e, ['ajv']));
 				error.ajv = errors.map(e => e.ajv);
 			}
