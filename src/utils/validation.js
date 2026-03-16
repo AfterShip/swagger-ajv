@@ -1,6 +1,7 @@
 'use strict';
 
 const Ajv = require('ajv');
+const ajvFormats = require('ajv-formats');
 const {omit} = require('lodash');
 
 const errorParser = require('./error_parser');
@@ -20,6 +21,7 @@ module.exports = ({
 		...ajvOptions,
 	});
 
+	ajvFormats(ajv);
 	require('ajv-errors')(ajv, ajvErrorsOptions);
 
 	// See https://github.com/eslint/eslint/issues/12117
